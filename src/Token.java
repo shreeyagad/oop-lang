@@ -38,18 +38,37 @@ public class Token {
 		//Single Character Tokens
 		
 		
-		//Operators
-		PLUS, MULTIPLY, MINUS, LESS, GREATER,
+		//Arithmetic Operators
+		PLUS, MINUS, MULTIPLY, DIVIDE, 
 		
 		
+		//Comparison
+		LESS, GREATER, EQUALS,
 		
-		//Expressions
+		
+		//Literals
 		NUMBER, BOOLEAN, STRING, 
 		
 		
 		EOF
 	}
 	
+
+	public TokenType getType() {
+		return type;
+	}
+	
+	public String getLexeme() {
+		return lexeme;
+	}
+
+	public Object getLiteral() {
+		return literal;
+	}
+
+	public int getLineNumber() {
+		return line;
+	}
 	
 	public String toString() {
 		return lexeme;
