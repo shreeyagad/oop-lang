@@ -1,5 +1,7 @@
-
-
+/**
+ * Represents a token for a program
+ *
+ */
 public class Token {
 	
 	TokenType type;
@@ -15,36 +17,18 @@ public class Token {
 	}
 	
 	static enum TokenType {
-//		// Single-character tokens.
-//		LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-//		COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
-//
-//		// One or two character tokens.
-//		BANG, BANG_EQUAL,
-//		EQUAL, EQUAL_EQUAL,
-//		GREATER, GREATER_EQUAL,
-//		LESS, LESS_EQUAL,
-//
-//		// Literals. 3 + 3
-//		IDENTIFIER, STRING, NUMBER,
-//
-//		// Keywords.
-//		AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
-//		PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
-//
-//		EOF
-		
-		
-		//Single Character Tokens
-		
 		
 		//Arithmetic Operators
 		PLUS, MINUS, MULTIPLY, DIVIDE, 
 		
+		//Assignment
+		ASSIGN,
 		
 		//Comparison
-		LESS, GREATER, EQUALS,
+		LESS, GREATER, EQUALS, GREATEREQ, LESSEQ, NOTEQ,
 		
+		//Boolean Operators
+		AND, OR, NOT,
 		
 		//Literals
 		NUMBER, BOOLEAN, STRING, 
@@ -72,6 +56,10 @@ public class Token {
 	
 	public String toString() {
 		return lexeme;
+	}
+	
+	public boolean equals(Object t2) {
+		return (this.lexeme).equals(((Token) t2).lexeme);
 	}
 
 }

@@ -2,7 +2,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Tokenizer class that creates a list of tokens from a source string
+ *
+ */
 public class Tokenizer {
 	private final String source;
 	private final ArrayList<Token> tokens;
@@ -45,7 +48,31 @@ public class Tokenizer {
 		case '-': addToken(Token.TokenType.MINUS); break;
 		case '+': addToken(Token.TokenType.PLUS); break;
 		case '*': addToken(Token.TokenType.MULTIPLY); break;
-
+		case '&': addToken(Token.TokenType.AND); break;
+		case '|': addToken(Token.TokenType.OR); break;
+		case '<': 
+			if (peek() == '=') { addToken(Token.TokenType.LESSEQ); current++; }
+			else addToken(Token.TokenType.LESS);
+			break;
+		case '>':
+			if (peek() == '=') { addToken(Token.TokenType.GREATEREQ); current++; }
+			else addToken(Token.TokenType.GREATER);
+			break;
+		case '=': 
+			if (peek() == '=') { addToken(Token.TokenType.EQUALS); current++; }
+			else addToken(Token.TokenType.ASSIGN);
+			break;
+		case '!': 
+			if (peek() == '=') { addToken(Token.TokenType.NOTEQ); current++; }
+			else addToken(Token.TokenType.NOT);
+			break;
+			
+		//Boolean literals
+		case 't':
+			scanTrue(); break;
+		case 'f':
+			scanFalse(); break;
+			
 		//String
 
 		case '\"': scanString(); break;
@@ -69,6 +96,11 @@ public class Tokenizer {
 	private char peek() {
 		return source.charAt(current);
 	}
+	
+	private String peekN(int n) {
+		if (current + n >= source.length()) return source.substring(current);
+		return source.substring(current, current + n);
+	}
 
 	private void addToken(Token.TokenType tokenType) {
 		addToken(tokenType, null);
@@ -80,6 +112,19 @@ public class Tokenizer {
 		tokens.add(new Token(type, text, literal, line));
 	}
 
+	private void scanTrue() {
+		if (peekN(3).equals("rue")) {
+			current+=3;
+			addToken(Token.TokenType.BOOLEAN, true);
+		}
+	}
+	
+	private void scanFalse() {
+		if (peekN(4).equals("alse")) {
+			current+=4;
+			addToken(Token.TokenType.BOOLEAN, false);
+		}
+	}
 
 	private void scanNumber() {
 		while ((current < source.length()) && Character.isDigit(peek())) {
