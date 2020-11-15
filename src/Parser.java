@@ -61,8 +61,9 @@ public class Parser {
         while (matchesType(allowedTypes)) {
             increment();
             Expression left = e;
+            // Token.TokenType op = getPreviousToken().getType();
+            Token op = getPreviousToken();
             Expression right = equality();
-            Token.TokenType op = getPreviousToken().getType();
             e = new BinopExpr(op, left, right);
         }
 
@@ -79,8 +80,9 @@ public class Parser {
         while (matchesType(allowedTypes)) {
             increment();
             Expression left = e;
+            // Token.TokenType op = getPreviousToken().getType();
+            Token op = getPreviousToken();
             Expression right = comparison();
-            Token.TokenType op = getPreviousToken().getType();
             e = new BinopExpr(op, left, right);
         }
 
@@ -97,8 +99,9 @@ public class Parser {
         while (matchesType(allowedTypes)) {
             increment();
             Expression left = e;
+            // Token.TokenType op = getPreviousToken().getType();
+            Token op = getPreviousToken();
             Expression right = term();
-            Token.TokenType op = getPreviousToken().getType();
             e = new BinopExpr(op, left, right);
         }
 
@@ -116,7 +119,8 @@ public class Parser {
         while (matchesType(allowedTypes)) {
             increment();
             Expression left = e;
-            Token.TokenType op = getPreviousToken().getType();
+            // Token.TokenType op = getPreviousToken().getType();
+            Token op = getPreviousToken();
             Expression right = factor();
             e = new BinopExpr(op, left, right);
         }
