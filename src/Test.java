@@ -34,10 +34,21 @@ public class Test {
 		PrettyPrinter.printExpression(e);
 	}
 
+	public static void test3() {
+		String source = "123 * 456 + 789";
+		Tokenizer tokenizer = new Tokenizer(source);
+		List<Token> lst = tokenizer.tokenize();
+		System.out.println("This is the list of tokens: " + lst);
+		Parser parser = new Parser(tokenizer);
+		Expression e = parser.parseTokens();
+		System.out.println("This is the parse tree: " + e);
+		PrettyPrinter.printExpression(e);
+	}
+
 	public static void main(String[] args) {
 		// test0();
 		// test1();
-
-		test2();
+		// test2();
+		test3();
 	}
 }
