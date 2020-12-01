@@ -121,4 +121,12 @@ public class Tests {
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), false);
 	}
+	
+	@Test
+	public void test11() {
+		System.out.println("test11");
+		String source = "true &&";
+		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), false);
+	}
 }

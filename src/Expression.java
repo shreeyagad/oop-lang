@@ -3,7 +3,7 @@
  * 
  */
 
-public abstract class Expression {
+public abstract class Expression extends Statement {
    
 	public Object eval() {
 		return null;

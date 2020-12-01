@@ -22,7 +22,7 @@ public class Token {
 		PLUS, MINUS, MULTIPLY, DIVIDE, 
 		
 		//Assignment
-		ASSIGN,
+		ASSIGN, SEMICOLON,
 		
 		//Comparison
 		LESS, GREATER, EQUALS, GREATEREQ, LESSEQ, NOTEQ,
@@ -32,6 +32,9 @@ public class Token {
 		
 		//Literals
 		NUMBER, BOOLEAN, STRING, 
+		
+		// Variables
+		VARTYPE, IDENTIFIER,
 		
 		
 		EOF

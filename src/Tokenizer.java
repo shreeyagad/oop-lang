@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 /**
  * Tokenizer class that creates a list of tokens from a source string
@@ -12,10 +13,17 @@ public class Tokenizer {
 	private int startOfToken = 0;
 	private int current = 0;
 	private int line = 1;
+	private final HashMap<String, Token.TokenType> keywords;
 
 	Tokenizer(String source) {
 		this.source = source;
 		this.tokens = new ArrayList<>();
+		this.keywords = new HashMap<String, Token.TokenType>();
+		keywords.put("false", Token.TokenType.BOOLEAN);
+		keywords.put("true", Token.TokenType.BOOLEAN);
+		keywords.put("int", Token.TokenType.VARTYPE);
+		keywords.put("boolean", Token.TokenType.VARTYPE);
+		keywords.put("String", Token.TokenType.VARTYPE);
 
 	}
 
@@ -43,11 +51,15 @@ public class Tokenizer {
 		case ' ':
 		case '\t': break;
 		case '\n': line++; break;
+		
+		//
+		case ';': addToken(Token.TokenType.SEMICOLON); break;
 
 		//Operators
 		case '-': addToken(Token.TokenType.MINUS); break;
 		case '+': addToken(Token.TokenType.PLUS); break;
 		case '*': addToken(Token.TokenType.MULTIPLY); break;
+		case '/': addToken(Token.TokenType.DIVIDE); break;
 		case '&': if (peek() == '&') { current++; addToken(Token.TokenType.AND); break; }
 		case '|': if (peek() == '|') { current++; addToken(Token.TokenType.OR); break; }
 		case '<': 
@@ -67,12 +79,6 @@ public class Tokenizer {
 			else addToken(Token.TokenType.NOT);
 			break;
 			
-		//Boolean literals
-		case 't':
-			scanTrue(); break;
-		case 'f':
-			scanFalse(); break;
-			
 		//String
 
 		case '\"': scanString(); break;
@@ -81,7 +87,11 @@ public class Tokenizer {
 			//Numbers
 			if (Character.isDigit(c)) {
 				scanNumber();
-			}  else {
+			} else if (Character.isLetter(c)) {
+				scanKeyword();
+			}
+			
+			else {
 				throw new Exception("Unrecognized character");
 			}
 		}
@@ -112,20 +122,30 @@ public class Tokenizer {
 		tokens.add(new Token(type, text, literal, line));
 	}
 
-	private void scanTrue() {
-		if (peekN(3).equals("rue")) {
-			current+=3;
-			addToken(Token.TokenType.BOOLEAN, true);
+
+	private void scanKeyword() {
+		while ((current < source.length()) && !Character.isWhitespace(peek())) {
+			current++;
 		}
+		String word = source.substring(startOfToken, current);
+		if (keywords.containsKey(word)) {
+//			System.out.println("word " + word);
+			switch (keywords.get(word)) {
+			case BOOLEAN:
+				addToken(Token.TokenType.BOOLEAN, Boolean.parseBoolean(word));
+				break;
+			case VARTYPE:
+				addToken(Token.TokenType.VARTYPE, word);
+				break;
+			default:
+				System.out.println("Unrecognized token");
+			}
+		} else {
+			addToken(Token.TokenType.IDENTIFIER, word);
+		}
+		
 	}
 	
-	private void scanFalse() {
-		if (peekN(4).equals("alse")) {
-			current+=4;
-			addToken(Token.TokenType.BOOLEAN, false);
-		}
-	}
-
 	private void scanNumber() {
 		while ((current < source.length()) && Character.isDigit(peek())) {
 			current++;

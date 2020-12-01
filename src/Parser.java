@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Arrays;
 
 /**
@@ -47,9 +48,41 @@ public class Parser {
 		return (tokenTypes.contains(currentTokenType));
 	}
 
-	public Expression parseTokens() {
-		return expression();
+	public Program parseTokens() {
+		LinkedList<Statement> lst = new LinkedList<Statement>();
+		return statements(lst);
 	}
+	
+	private Program statements(LinkedList<Statement> lst) {
+		if (getCurrentToken().getType() == Token.TokenType.VARTYPE) {
+			lst.add(assignment());
+		} else {
+			lst.add(expression());
+		}
+		
+		
+		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.SEMICOLON);
+		while (matchesType(allowedTypes)) {
+			increment();
+			statements(lst);
+		}
+		return new Program(lst);
+	}
+	
+	private Assignment assignment() {
+		String type = (String) getCurrentToken().getLiteral();
+		increment();
+		String identifier = (String) getCurrentToken().getLiteral();
+		increment();
+		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
+			increment();
+			Expression e = expression();
+			Assignment assignment = new Assignment(type, identifier, e);
+			return assignment;
+		}
+		return null;
+	}
+	
 
 	private Expression expression() {
 		return disjunction();

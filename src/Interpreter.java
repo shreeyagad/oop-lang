@@ -1,9 +1,9 @@
 
 public class Interpreter {
-	public static Object evaluate(String source) {
+	public static void evaluate(String source) {
 		Tokenizer tokenizer = new Tokenizer(source);
 		Parser parser = new Parser(tokenizer);
-		Expression e = parser.parseTokens();
-		return e.eval();
+		Program e = parser.parseTokens();
+		e.eval();
 	}
 }
