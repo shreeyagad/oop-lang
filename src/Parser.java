@@ -71,7 +71,7 @@ public class Parser {
 	
 	private Assignment assignment() {
 		String type = (String) getCurrentToken().getLiteral();
-		boolean newVar = (type == "int" || type == "boolean" || type == "String");
+		boolean newVar = (type.equals("int") || type.equals("boolean") || type.equals("String"));
 		if (newVar) {
 			increment();
 		}

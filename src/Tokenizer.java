@@ -116,10 +116,6 @@ public class Tokenizer {
 		return source.charAt(current);
 	}
 	
-	private String peekN(int n) {
-		if (current + n >= source.length()) return source.substring(current);
-		return source.substring(current, current + n);
-	}
 
 	private void addToken(Token.TokenType tokenType) {
 		addToken(tokenType, null);

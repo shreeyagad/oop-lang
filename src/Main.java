@@ -18,8 +18,7 @@ public class Main {
 //			System.out.print(">> ");
 //			input = sc.nextLine();
 //		}
-		String source = "print (1 + 2 + 3 * 4);";
-//		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
+		String source = "int num = 3; num + 3 > 5";
 		Tokenizer t = new Tokenizer(source);
 		List<Token> tokens = t.tokenize();
 		System.out.println(tokens);
