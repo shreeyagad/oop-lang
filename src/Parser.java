@@ -64,20 +64,23 @@ public class Parser {
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.SEMICOLON);
 		while (matchesType(allowedTypes)) {
 			increment();
-			statements(lst);
+			if (!atEOF()) {statements(lst);}
 		}
 		return new Program(lst);
 	}
 	
 	private Assignment assignment() {
 		String type = (String) getCurrentToken().getLiteral();
-		increment();
+		boolean newVar = (type == "int" || type == "boolean" || type == "String");
+		if (newVar) {
+			increment();
+		}
 		String identifier = (String) getCurrentToken().getLiteral();
 		increment();
 		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
 			increment();
 			Expression e = expression();
-			Assignment assignment = new Assignment(type, identifier, e);
+			Assignment assignment = new Assignment(type, identifier, e, !newVar);
 			return assignment;
 		}
 		return null;
@@ -132,7 +135,6 @@ public class Parser {
 			increment();
 			Expression left = e;
 			Token.TokenType op = getPreviousToken().getType();
-//            Token op = getPreviousToken();
 			Expression right = equality();
 			e = new BinopExpr(op, left, right);
 		}
@@ -191,7 +193,6 @@ public class Parser {
 			increment();
 			Expression left = e;
 			Token.TokenType op = getPreviousToken().getType();
-//			Token op = getPreviousToken();
 			Expression right = factor();
 			e = new BinopExpr(op, left, right);
 		}
@@ -217,6 +218,21 @@ public class Parser {
 		} else if (currTokenType == Token.TokenType.STRING) {
 			increment();
 			return new MyString((String) literal);
+		} else if (currTokenType == Token.TokenType.IDENTIFIER) {
+			increment();
+			return new Variable((String) literal);
+		} else if (currTokenType == Token.TokenType.LPAREN) {
+			increment();
+			Expression e = expression();
+			if (getCurrentToken().getType() == Token.TokenType.RPAREN) {
+				increment();
+				return e;
+			}
+			return null;
+		} else if (currTokenType == Token.TokenType.FUNCTION) {
+			increment();
+			Expression e = expression();
+			return new Print(e);
 		} else {
 			return null;
 		}

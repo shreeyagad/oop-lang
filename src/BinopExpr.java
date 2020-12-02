@@ -31,33 +31,33 @@ public class BinopExpr extends Expression {
 		return rightExpr;
 	}
 
-	public Object eval() {
+	public Object eval(Environment env) {
 		switch (op) {
 		case PLUS:
-			if (leftExpr.eval() instanceof String) return (String) leftExpr.eval() + (String) rightExpr.eval();
-			return (int) leftExpr.eval() + (int) rightExpr.eval();
+			if (leftExpr.eval(env) instanceof String) return (String) leftExpr.eval(env) + (String) rightExpr.eval(env);
+			return (int) leftExpr.eval(env) + (int) rightExpr.eval(env);
 		case MINUS:
-			return (int) leftExpr.eval() - (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) - (int) rightExpr.eval(env);
 		case MULTIPLY:
-			return (int) leftExpr.eval() * (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) * (int) rightExpr.eval(env);
 		case DIVIDE:
-			return (int) leftExpr.eval() / (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) / (int) rightExpr.eval(env);
 		case LESS:
-			return (int) leftExpr.eval() < (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) < (int) rightExpr.eval(env);
 		case GREATER: 
-			return (int) leftExpr.eval() > (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) > (int) rightExpr.eval(env);
 		case EQUALS:
-			return leftExpr.eval().equals(rightExpr.eval());
+			return leftExpr.eval(env).equals(rightExpr.eval(env));
 		case LESSEQ:
-			return (int) leftExpr.eval() <= (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) <= (int) rightExpr.eval(env);
 		case GREATEREQ: 
-			return (int) leftExpr.eval() >= (int) rightExpr.eval();
+			return (int) leftExpr.eval(env) >= (int) rightExpr.eval(env);
 		case OR:
-			return (boolean) leftExpr.eval() || (boolean) rightExpr.eval();
+			return (boolean) leftExpr.eval(env) || (boolean) rightExpr.eval(env);
 		case AND:
-			return (boolean) leftExpr.eval() && (boolean) rightExpr.eval();
+			return (boolean) leftExpr.eval(env) && (boolean) rightExpr.eval(env);
 		case NOTEQ:
-			return !(leftExpr.eval().equals(rightExpr.eval()));
+			return !(leftExpr.eval(env).equals(rightExpr.eval(env)));
 		default:
 			return null;
 		}

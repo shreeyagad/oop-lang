@@ -1,10 +1,13 @@
 
-public class Variable {
+public class Variable extends Expression {
 	//TODO: String type
 	String name;
-	Object value;
-	public Variable(String name, Object value) {
+
+	public Variable(String name) {
 		this.name = name;
-		this.value = value;
+	}
+	
+	public Object eval(Environment env) {
+		return env.getValue(name);
 	}
 }

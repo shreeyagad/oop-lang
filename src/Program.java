@@ -8,9 +8,13 @@ public class Program {
 		statements = lst;
 	}
 
-	public void eval() {
+	public void eval(Environment env) {
 		for (Statement statement: statements) {
-			statement.eval();
+			statement.eval(env);
 		}
+	}
+	
+	public String toString() {
+		return statements.toString();
 	}
 }

@@ -18,7 +18,7 @@ public class MyString extends Expression {
 		return this.value.equals(((MyString) e).value);
 	}
 
-	public String eval() {
+	public String eval(Environment env) {
 		return value;
 	}
 

@@ -19,7 +19,7 @@ public class MyNumber extends Expression {
     	return this.value == ((MyNumber) e).value;
     }
     
-    public Integer eval() {
+    public Integer eval(Environment env) {
     	return value;
     }
 

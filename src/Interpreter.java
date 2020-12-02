@@ -4,6 +4,7 @@ public class Interpreter {
 		Tokenizer tokenizer = new Tokenizer(source);
 		Parser parser = new Parser(tokenizer);
 		Program e = parser.parseTokens();
-		e.eval();
+		Environment env = new Environment();
+		e.eval(env);
 	}
 }

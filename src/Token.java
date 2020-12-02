@@ -36,6 +36,15 @@ public class Token {
 		// Variables
 		VARTYPE, IDENTIFIER,
 		
+		//Parentheses
+		LPAREN, RPAREN,
+		
+		//Brackets
+		LBRACKET, RBRACKET,
+		
+		//Function
+		FUNCTION,
+		
 		
 		EOF
 	}

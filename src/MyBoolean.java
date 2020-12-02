@@ -19,7 +19,7 @@ public class MyBoolean extends Expression {
 		 return this.value == ((MyBoolean) e).value;
 	 }
 	 
-	 public Boolean eval() {
+	 public Boolean eval(Environment env) {
 	    return value;
 	 }
 

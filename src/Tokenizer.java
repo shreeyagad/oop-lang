@@ -24,6 +24,7 @@ public class Tokenizer {
 		keywords.put("int", Token.TokenType.VARTYPE);
 		keywords.put("boolean", Token.TokenType.VARTYPE);
 		keywords.put("String", Token.TokenType.VARTYPE);
+		keywords.put("print", Token.TokenType.FUNCTION);
 
 	}
 
@@ -54,7 +55,15 @@ public class Tokenizer {
 		
 		//
 		case ';': addToken(Token.TokenType.SEMICOLON); break;
-
+		
+		//Parentheses
+		case '(': addToken(Token.TokenType.LPAREN); break;
+		case ')': addToken(Token.TokenType.RPAREN); break;
+		
+		//Brackets
+		case '{': addToken(Token.TokenType.LBRACKET); break;
+		case '}': addToken(Token.TokenType.RBRACKET); break;
+		
 		//Operators
 		case '-': addToken(Token.TokenType.MINUS); break;
 		case '+': addToken(Token.TokenType.PLUS); break;
@@ -121,21 +130,28 @@ public class Tokenizer {
 		String text = source.substring(startOfToken, current);
 		tokens.add(new Token(type, text, literal, line));
 	}
+	
+	private boolean validNameChars() {
+		Character curr = peek();
+		return (Character.isLetterOrDigit(curr) || curr == '_' || curr == '$');
+	}
 
 
 	private void scanKeyword() {
-		while ((current < source.length()) && !Character.isWhitespace(peek())) {
+		while ((current < source.length()) && validNameChars()) {
 			current++;
 		}
 		String word = source.substring(startOfToken, current);
 		if (keywords.containsKey(word)) {
-//			System.out.println("word " + word);
 			switch (keywords.get(word)) {
 			case BOOLEAN:
 				addToken(Token.TokenType.BOOLEAN, Boolean.parseBoolean(word));
 				break;
 			case VARTYPE:
 				addToken(Token.TokenType.VARTYPE, word);
+				break;
+			case FUNCTION:
+				addToken(Token.TokenType.FUNCTION, word);
 				break;
 			default:
 				System.out.println("Unrecognized token");
