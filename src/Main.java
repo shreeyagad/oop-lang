@@ -18,14 +18,14 @@ public class Main {
 //			System.out.print(">> ");
 //			input = sc.nextLine();
 //		}
-		String source = "int n = 10; while (n > 0) {n = n - 1;};";
+		String source = "int n = 11; while (!false && n > 10) {print n; n = n-1;}; print 5;";
 		Tokenizer t = new Tokenizer(source);
 		List<Token> tokens = t.tokenize();
 		System.out.println(tokens);
 		Parser p = new Parser(t);
 		System.out.println(p.parseTokens());
 		System.out.println(Interpreter.evaluate(source));
-
+		
 		
 		
 		

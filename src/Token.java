@@ -17,25 +17,32 @@ public class Token {
 	}
 	
 	static enum TokenType {
+		//Unary Operators
+		NOT,
 		
-		//Arithmetic Operators
+		//Binary Operators
+		
+		//Arithmetic 
 		PLUS, MINUS, MULTIPLY, DIVIDE, 
-		
-		//Assignment
-		ASSIGN, SEMICOLON,
 		
 		//Comparison
 		LESS, GREATER, EQUALS, GREATEREQ, LESSEQ, NOTEQ,
 		
-		//Boolean Operators
-		AND, OR, NOT,
+		//Boolean
+		AND, OR,
+		
+		//Assignment
+		ASSIGN,
+		
+		//Punctuation
+		SEMICOLON, COMMA,
 		
 		//Literals
 		NUMBER, BOOLEAN, STRING, 
-		
+			
 		// Variables
 		VARTYPE, IDENTIFIER,
-		
+	
 		//Parentheses
 		LPAREN, RPAREN,
 		
