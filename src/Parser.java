@@ -40,7 +40,7 @@ public class Parser {
 		}
 	}
 
-	private boolean matchesType(List<Token.TokenType> tokenTypes) {
+	private boolean matchesType(List<Token.TokenType> tokenTypes) throws Exception {
 		if (atEOF()) {
 			return false;
 		}
@@ -48,12 +48,12 @@ public class Parser {
 		return (tokenTypes.contains(currentTokenType));
 	}
 
-	public Program parseTokens() {
+	public Program parseTokens() throws Exception {
 		LinkedList<Statement> lst = new LinkedList<Statement>();
 		return statements(lst);
 	}
 	
-	private Program statements(LinkedList<Statement> lst) {
+	private Program statements(LinkedList<Statement> lst) throws Exception {
 		if (getCurrentToken().getType() == Token.TokenType.VARTYPE) {
 			lst.add(assignment());
 		} else {
@@ -69,7 +69,7 @@ public class Parser {
 		return new Program(lst);
 	}
 	
-	private Assignment assignment() {
+	private Assignment assignment() throws Exception {
 		String type = (String) getCurrentToken().getLiteral();
 		boolean newVar = (type.equals("int") || type.equals("boolean") || type.equals("String"));
 		if (newVar) {
@@ -87,13 +87,13 @@ public class Parser {
 	}
 	
 
-	private Expression expression() {
+	private Expression expression() throws Exception {
 		return disjunction();
 	}
 	
 	
 	//Or
-	private Expression disjunction() {
+	private Expression disjunction() throws Exception {
 		Expression e = conjunction();
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.OR);
 		
@@ -109,7 +109,7 @@ public class Parser {
 	}
 	
 	//And
-	private Expression conjunction() {
+	private Expression conjunction() throws Exception {
 		Expression e = equality();
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.AND);
 		
@@ -125,7 +125,7 @@ public class Parser {
 		
 	}
 
-	private Expression equality() {
+	private Expression equality() throws Exception {
 		// EQUALS
 		Expression e = comparison();
 
@@ -143,7 +143,7 @@ public class Parser {
 
 	}
 
-	private Expression comparison() {
+	private Expression comparison() throws Exception {
 		// LESS, GREATER
 		Expression e = term();
 
@@ -163,7 +163,7 @@ public class Parser {
 
 	}
 
-	private Expression term() {
+	private Expression term() throws Exception {
 		// PLUS, MINUS
 		Expression e = factor();
 
@@ -182,7 +182,7 @@ public class Parser {
 
 	}
 
-	private Expression factor() {
+	private Expression factor() throws Exception {
 		// MULTIPLY, DIVIDE
 
 		Expression e = literal();
@@ -201,7 +201,7 @@ public class Parser {
 
 	}
 
-	private Expression literal() {
+	private Expression literal() throws Exception {
 		// NUMBER, BOOLEAN, STRING
 
 		Token currToken = getCurrentToken();
@@ -233,8 +233,35 @@ public class Parser {
 			increment();
 			Expression e = expression();
 			return new Print(e);
+		} else if (currTokenType == Token.TokenType.IF) {
+			increment();
+			consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
+			Expression condition = expression();
+			consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
+			consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+			Program tBody = statements(new LinkedList<Statement>());
+			consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
+			Program fBody = null;
+			if (currToken.getType() == Token.TokenType.ELSE) {
+				consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+				fBody = statements(new LinkedList<Statement>());
+				consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
+			}
+			return new IfElseStatement(condition, tBody, fBody);
+			
+
 		} else {
 			return null;
+		}
+		
+		
+	}
+	
+	public void consume(Token.TokenType type, String errorMessage) throws Exception {
+		if (getCurrentToken().getType() == type) {
+			increment();
+		} else {
+			throw new Exception(errorMessage);
 		}
 	}
 

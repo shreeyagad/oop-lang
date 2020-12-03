@@ -25,7 +25,9 @@ public class Tokenizer {
 		keywords.put("boolean", Token.TokenType.VARTYPE);
 		keywords.put("String", Token.TokenType.VARTYPE);
 		keywords.put("print", Token.TokenType.FUNCTION);
-
+		keywords.put("if", Token.TokenType.IF);
+		keywords.put("elif", Token.TokenType.ELIF);
+		keywords.put("else", Token.TokenType.ELSE);
 	}
 
 	public List<Token> tokenize() {
@@ -143,14 +145,9 @@ public class Tokenizer {
 			case BOOLEAN:
 				addToken(Token.TokenType.BOOLEAN, Boolean.parseBoolean(word));
 				break;
-			case VARTYPE:
-				addToken(Token.TokenType.VARTYPE, word);
-				break;
-			case FUNCTION:
-				addToken(Token.TokenType.FUNCTION, word);
-				break;
 			default:
-				System.out.println("Unrecognized token");
+				addToken(keywords.get(word), word);
+				break;
 			}
 		} else {
 			addToken(Token.TokenType.IDENTIFIER, word);

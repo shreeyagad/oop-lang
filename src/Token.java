@@ -45,6 +45,11 @@ public class Token {
 		//Function
 		FUNCTION,
 		
+		//If, Else
+		IF, ELIF, ELSE,
+		
+		WHILE,
+		
 		
 		EOF
 	}
