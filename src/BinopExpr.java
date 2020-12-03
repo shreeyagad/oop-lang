@@ -16,7 +16,7 @@ public class BinopExpr extends Expression {
 	}
 
 	public String toString() {
-		return "(" + leftExpr + ")" + " " + op + " (" + rightExpr + ")";
+		return "(" + leftExpr + " " + op + " " + rightExpr + ")";
 	}
 
 	public Token.TokenType getOp() {

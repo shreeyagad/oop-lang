@@ -54,36 +54,14 @@ public class Parser {
 	}
 	
 	private Program statements(LinkedList<Statement> lst) throws Exception {
-		if (getCurrentToken().getType() == Token.TokenType.VARTYPE) {
-			lst.add(assignment());
-		} else {
-			lst.add(expression());
-		}
-		
-		
-		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.SEMICOLON);
-		while (matchesType(allowedTypes)) {
-			increment();
-			if (!atEOF()) {statements(lst);}
+		lst.add(expression());
+		System.out.println(lst);
+		consume(Token.TokenType.SEMICOLON, "Every statement must be followed by a semicolon.");
+
+		while (!atEOF() && !getCurrentToken().getType().equals(Token.TokenType.RBRACKET)) {
+			statements(lst);
 		}
 		return new Program(lst);
-	}
-	
-	private Assignment assignment() throws Exception {
-		String type = (String) getCurrentToken().getLiteral();
-		boolean newVar = (type.equals("int") || type.equals("boolean") || type.equals("String"));
-		if (newVar) {
-			increment();
-		}
-		String identifier = (String) getCurrentToken().getLiteral();
-		increment();
-		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
-			increment();
-			Expression e = expression();
-			Assignment assignment = new Assignment(type, identifier, e, !newVar);
-			return assignment;
-		}
-		return null;
 	}
 	
 
@@ -154,7 +132,6 @@ public class Parser {
 			increment();
 			Expression left = e;
 			Token.TokenType op = getPreviousToken().getType();
-//            Token op = getPreviousToken();
 			Expression right = comparison();
 			e = new BinopExpr(op, left, right);
 		}
@@ -214,7 +191,6 @@ public class Parser {
 		} else if (currTokenType == Token.TokenType.BOOLEAN) {
 			increment();
 			return new MyBoolean((Boolean) literal);
-
 		} else if (currTokenType == Token.TokenType.STRING) {
 			increment();
 			return new MyString((String) literal);
@@ -234,27 +210,64 @@ public class Parser {
 			Expression e = expression();
 			return new Print(e);
 		} else if (currTokenType == Token.TokenType.IF) {
-			increment();
-			consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
-			Expression condition = expression();
-			consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
-			consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
-			Program tBody = statements(new LinkedList<Statement>());
-			consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
-			Program fBody = null;
-			if (currToken.getType() == Token.TokenType.ELSE) {
-				consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
-				fBody = statements(new LinkedList<Statement>());
-				consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
-			}
-			return new IfElseStatement(condition, tBody, fBody);
-			
-
+			return ifStatement();
+		} else if (currTokenType == Token.TokenType.WHILE) {
+			return whileStatement();
+		} else if (currTokenType == Token.TokenType.VARTYPE) {
+			return assignment();
 		} else {
 			return null;
 		}
 		
-		
+	}
+	
+	private Expression whileStatement() throws Exception {
+		increment();
+		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
+		Expression condition = expression();
+		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
+		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+		Program body = statements(new LinkedList<Statement>());
+		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
+
+		return new WhileStatement(condition, body);
+	}
+	
+	
+	private Expression ifStatement() throws Exception {
+		increment();
+		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
+		Expression condition = expression();
+		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
+		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+		Program tBody = statements(new LinkedList<Statement>());
+		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
+		Program fBody = null;
+		if (getCurrentToken().getType() == Token.TokenType.ELSE) {
+			increment();
+			consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+			fBody = statements(new LinkedList<Statement>());
+			consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
+		}
+		return new IfElseStatement(condition, tBody, fBody);
+	}
+	
+	private Expression assignment() throws Exception {
+		String type = (String) getCurrentToken().getLiteral();
+		boolean newVar = (type.equals("int") || type.equals("boolean") || type.equals("String"));
+		if (newVar) {
+			increment();
+		}
+		String identifier = (String) getCurrentToken().getLiteral();
+		increment();
+		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
+			increment();
+			Expression e = expression();
+//			increment();
+			Assignment assignment = new Assignment(type, identifier, e, !newVar);
+			return assignment;
+		}
+		return null;
 	}
 	
 	public void consume(Token.TokenType type, String errorMessage) throws Exception {

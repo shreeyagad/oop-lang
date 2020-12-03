@@ -28,6 +28,7 @@ public class Tokenizer {
 		keywords.put("if", Token.TokenType.IF);
 		keywords.put("elif", Token.TokenType.ELIF);
 		keywords.put("else", Token.TokenType.ELSE);
+		keywords.put("while", Token.TokenType.WHILE);
 	}
 
 	public List<Token> tokenize() {

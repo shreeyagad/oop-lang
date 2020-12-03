@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 //		System.out.println("OOPLang Interpreter\n");
 //		Scanner sc = new Scanner(System.in);
 //		System.out.print(">> ");
@@ -18,13 +18,17 @@ public class Main {
 //			System.out.print(">> ");
 //			input = sc.nextLine();
 //		}
-		String source = "int num = 3; num + 3 > 5";
+		String source = "int n = 10; while (n > 0) {n = n - 1;};";
 		Tokenizer t = new Tokenizer(source);
 		List<Token> tokens = t.tokenize();
 		System.out.println(tokens);
 		Parser p = new Parser(t);
 		System.out.println(p.parseTokens());
-		Interpreter.evaluate(source);
+		System.out.println(Interpreter.evaluate(source));
+
+		
+		
+		
 		
 
 	}

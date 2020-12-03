@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Iterator;
 
 public class Program {
 	
@@ -8,10 +9,13 @@ public class Program {
 		statements = lst;
 	}
 
-	public void eval(Environment env) {
-		for (Statement statement: statements) {
-			statement.eval(env);
+	public Object eval(Environment env) {
+		Iterator<Statement> it = statements.iterator();
+		Object p = null;
+		while (it.hasNext()) {
+			p = (it.next()).eval(env);
 		}
+		return p;
 	}
 	
 	public String toString() {

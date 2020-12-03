@@ -10,4 +10,8 @@ public class Variable extends Expression {
 	public Object eval(Environment env) {
 		return env.getValue(name);
 	}
+	
+	public String toString() {
+		return name;
+	}
 }

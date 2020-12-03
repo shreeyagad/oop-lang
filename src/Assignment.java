@@ -1,5 +1,5 @@
 
-public class Assignment extends Statement {
+public class Assignment extends Expression {
 	String name;
 	String type;
 	Expression expr;
@@ -28,5 +28,8 @@ public class Assignment extends Statement {
 		return value;
 	}
 	
+	public String toString() {
+		return type + " " + name + " := " + expr;
+	}
 
 }

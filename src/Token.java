@@ -48,6 +48,7 @@ public class Token {
 		//If, Else
 		IF, ELIF, ELSE,
 		
+		//Loops
 		WHILE,
 		
 		
