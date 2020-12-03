@@ -19,7 +19,7 @@ public class Main {
 //			input = sc.nextLine();
 //		}
 
-		String source = "int n = 11; while (!false && n > 10) {print n; n = n-1;};";
+		String source = "int n = true; n || n;";
 		Tokenizer t = new Tokenizer(source);
 		List<Token> tokens = t.tokenize();
 		System.out.println(tokens);

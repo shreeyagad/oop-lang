@@ -49,8 +49,9 @@ public class Token {
 		//Brackets
 		LBRACKET, RBRACKET,
 		
-		//Function
-		FUNCTION,
+		//Function 
+		// function foo(int num, boolean b) { print num; print b; }
+		FUNCTION, PRINT,
 		
 		//If, Else
 		IF, ELIF, ELSE,

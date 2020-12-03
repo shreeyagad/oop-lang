@@ -24,11 +24,12 @@ public class Tokenizer {
 		keywords.put("int", Token.TokenType.VARTYPE);
 		keywords.put("boolean", Token.TokenType.VARTYPE);
 		keywords.put("String", Token.TokenType.VARTYPE);
-		keywords.put("print", Token.TokenType.FUNCTION);
+		keywords.put("print", Token.TokenType.PRINT);
 		keywords.put("if", Token.TokenType.IF);
 		keywords.put("elif", Token.TokenType.ELIF);
 		keywords.put("else", Token.TokenType.ELSE);
 		keywords.put("while", Token.TokenType.WHILE);
+		keywords.put("function", Token.TokenType.FUNCTION);
 		keywords.put("!", Token.TokenType.NOT);
 	}
 
@@ -59,6 +60,7 @@ public class Tokenizer {
 		
 		//
 		case ';': addToken(Token.TokenType.SEMICOLON); break;
+		case ',': addToken(Token.TokenType.COMMA); break;
 		
 		//Parentheses
 		case '(': addToken(Token.TokenType.LPAREN); break;
