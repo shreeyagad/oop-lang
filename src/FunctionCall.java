@@ -1,11 +1,11 @@
-import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class FunctionCall extends Expression {
 	Expression funcName;
-	ArrayList<Expression> args;
+	List<Expression> args;
 	
-	public FunctionCall(Expression funcName, ArrayList<Expression> args) {
+	public FunctionCall(Expression funcName, List<Expression> args) {
 		this.funcName = funcName;
 		this.args = args;
 	}

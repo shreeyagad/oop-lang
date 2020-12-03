@@ -180,7 +180,7 @@ public class Parser {
 		// NOT
 		if (getCurrentToken().getType() == Token.TokenType.NOT)  {
 			increment();
-			Expression e = expression();
+			Expression e = literal();
 			return new NotUnary(e);
 		}
 		else {
@@ -253,9 +253,11 @@ public class Parser {
 		increment();
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		Expression condition = expression();
+		System.out.println(condition);
 		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
 		Program body = statements(new LinkedList<Statement>());
+		System.out.println(body);
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 
 		return new WhileStatement(condition, body);
@@ -288,6 +290,7 @@ public class Parser {
 		}
 		String identifier = (String) getCurrentToken().getLiteral();
 		increment();
+		//TODO: handle types of old variables
 		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
 			increment();
 			Expression e = expression();

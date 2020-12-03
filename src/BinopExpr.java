@@ -55,6 +55,7 @@ public class BinopExpr extends Expression {
 		case OR:
 			return (boolean) leftExpr.eval(env) || (boolean) rightExpr.eval(env);
 		case AND:
+			System.out.println(((boolean) leftExpr.eval(env) && (boolean) rightExpr.eval(env)));
 			return ((boolean) leftExpr.eval(env) && (boolean) rightExpr.eval(env));
 		case NOTEQ:
 			return !(leftExpr.eval(env).equals(rightExpr.eval(env)));
