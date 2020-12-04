@@ -146,9 +146,20 @@ public class Tests {
 	@Test
 	public void test14() throws Exception {
 		System.out.println("test14");
-		String source = "int n = 10; function printNum(int n) { while(n >= 0) { print n; n = n - 1; }; }; printNum(n);";
+		String source = "int n = 10; function printNum(int n) { while(n >= 0) { print(n); n = n - 1; }; }; printNum(n); n;";
+		System.out.println(Interpreter.evaluate(source));
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), -1);
 	}
 	
+	@Test
+	public void test15() throws Exception {
+		System.out.println("test15");
+		String source = "int n = 5; int sum = 0; while(n >= 0) { print(n); sum = sum + n; n = n - 1; }; }; printNum(sum); sum;";
+		System.out.println("hi");
+		System.out.println(Interpreter.evaluate(source));
+		
+		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), 15);
+	}
 }

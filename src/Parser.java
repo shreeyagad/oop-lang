@@ -226,10 +226,14 @@ public class Parser {
 			return whileStatement();
 		} else if (currTokenType == Token.TokenType.VARTYPE) {
 			return assignment();
+		} else if (currTokenType == Token.TokenType.CLASS) {
+			return classDeclaration();
 		} else {
 			return null;
 		}
 	}
+
+	
 
 	// WHILE
 	private Expression whileStatement() throws Exception {
@@ -321,6 +325,9 @@ public class Parser {
 		increment();
 		String funcName = (String) getCurrentToken().getLiteral();
 		increment();
+		
+		System.out.println(funcName);
+		System.out.println(getCurrentTokenType());
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		
 		List<Variable> args = new LinkedList<>();
@@ -343,6 +350,43 @@ public class Parser {
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 		return new FunctionDeclaration(funcName, body, args);
 	}
+	
+	
+	//Class Declaration
+	private Expression classDeclaration() throws Exception {
+		increment();
+		String className = (String) getCurrentToken().getLiteral();
+		increment();
+		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+		List<Variable> attributes = new LinkedList<>();
+		while (getCurrentTokenType() != Token.TokenType.FUNCTION) {
+			String type = (String) consume(Token.TokenType.VARTYPE, "Expecting Token of type VARTYPE");
+			String identifier = (String) consume(Token.TokenType.IDENTIFIER, 
+					"Expecting token of type IDENTIFIER");
+			attributes.add(new Variable(identifier, type));
+			consume(Token.TokenType.SEMICOLON, "Expecting Semicolon after attribute declaration");
+		}
+		
+		List<FunctionDeclaration> methods = new LinkedList<>();
+
+		while (getCurrentTokenType() != Token.TokenType.RBRACKET) {
+			System.out.println("test" + getCurrentTokenType());
+			System.out.println("current " + current);
+
+			FunctionDeclaration f = (FunctionDeclaration) newFunction();
+			System.out.println("f: "+f);
+			System.out.println("current " + current);
+			methods.add(f);
+			consume(Token.TokenType.SEMICOLON, "Expecting Semicolon after attribute declaration");
+
+		}
+		
+		consume(Token.TokenType.RBRACKET, "Expecting Token of type RBRACKET");
+
+		
+		return new ClassDeclaration(className, attributes, methods);
+	} 	
+	
 
 	public Object consume(Token.TokenType type, String errorMessage) throws Exception {
 		if (getCurrentTokenType() == type) {

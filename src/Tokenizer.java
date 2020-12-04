@@ -33,6 +33,7 @@ public class Tokenizer {
 		keywords.put("function", Token.TokenType.FUNCTION);
 		keywords.put("print", Token.TokenType.PRINT);
 		keywords.put("return", Token.TokenType.RETURN);
+		keywords.put("class", Token.TokenType.CLASS);
 	}
 
 	public List<Token> tokenize() {

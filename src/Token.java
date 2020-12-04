@@ -62,6 +62,18 @@ public class Token {
 		//Loops
 		WHILE,
 		
+		
+//		class something {
+//			int n;
+//			something() {
+				
+//			}
+//		}
+//			
+//		}
+		//Class
+		CLASS,
+		
 		//EOF
 		EOF
 	}
