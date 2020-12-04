@@ -12,7 +12,8 @@ public class MyString extends Expression {
 	public boolean equals(Object e) {
 		return this.value.equals(((MyString) e).value);
 	}
-
+	
+	@Override
 	public String eval(Environment env) {
 		return value;
 	}

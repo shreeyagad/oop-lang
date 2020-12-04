@@ -15,12 +15,13 @@ public class IfElseStatement extends Expression {
 		this.tBody = tBody;
 		this.fBody = fBody;
 	}
-	
+
+	@Override
 	public Object eval(Environment env) {
 		if ((boolean) condition.eval(env)) {
 			return tBody.eval(env);
 		} 
-		else if (!fBody.equals(null)) {
+		else if (fBody != null) {
 			return fBody.eval(env);
 		}
 		else {

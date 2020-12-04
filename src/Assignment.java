@@ -8,14 +8,15 @@
 public class Assignment extends Expression {
 	Variable var;
 	Expression expr;
-	Boolean reassignment;
+	boolean reassignment;
 	
-	public Assignment(Variable var, Expression expr, Boolean reassignment) {
+	public Assignment(Variable var, Expression expr, boolean reassignment) {
 		this.var = var;
 		this.expr = expr;
 		this.reassignment = reassignment;
 	}
 	
+	@Override
 	public Object eval(Environment env) {
 		//TODO: Type check assignment statements
 		Object value = expr.eval(env);

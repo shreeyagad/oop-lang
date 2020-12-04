@@ -9,6 +9,7 @@ public class NotUnary extends Expression {
 		this.e = e;
 	}
 	
+	@Override
 	public Object eval(Environment env) {
 		return !((boolean) e.eval(env));
 	}

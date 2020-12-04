@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Iterator;
 /**
  * Represents a Program
@@ -6,9 +6,9 @@ import java.util.Iterator;
  */
 public class Program {
 	
-	LinkedList<Statement> statements;
+	List<Statement> statements;
 	
-	public Program(LinkedList<Statement> statements) {
+	public Program(List<Statement> statements) {
 		this.statements = statements;
 	}
 

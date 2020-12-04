@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Environment {
 	HashMap<String, Object> mappings;
 	public Environment() {
-		mappings = new HashMap<String, Object>();
+		mappings = new HashMap<>();
 	}
 	
 	public void addVariable(String name, Object value) {
@@ -28,7 +28,7 @@ public class Environment {
 	
 	public Environment copyEnv() {
 		Environment newEnv = new Environment();
-		newEnv.mappings = (HashMap<String, Object>) mappings.clone();
+		newEnv.mappings = (HashMap<String, Object>) (mappings.clone());
 		return newEnv;
 	}
 

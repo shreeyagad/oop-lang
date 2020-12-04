@@ -50,8 +50,11 @@ public class Token {
 		//Brackets
 		LBRACKET, RBRACKET,
 		
-		//Functions
-		FUNCTION, PRINT,
+		//Function Declaration
+		FUNCTION,
+
+		//Built-in Functions
+		PRINT, RETURN,
 		
 		//If, Else
 		IF, ELIF, ELSE,

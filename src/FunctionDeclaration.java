@@ -17,6 +17,7 @@ public class FunctionDeclaration extends Expression {
 		this.args = args;
 	}
 	
+	@Override
 	public Object eval(Environment env) {
 		MyFunction f = new MyFunction(funcName, body, args);
 		env.addVariable(funcName, f);

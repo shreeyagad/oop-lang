@@ -11,8 +11,9 @@ public class MyNumber extends Expression {
 
     public boolean equals(Object e) {
     	return this.value == ((MyNumber) e).value;
-    }
-    
+	}
+	
+	@Override
     public Integer eval(Environment env) {
     	return value;
 	}

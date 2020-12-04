@@ -6,7 +6,7 @@ import java.util.List;
  * @param body The body of the function
  * @param args The ordered list of the function's parameters
  */
-public class MyFunction {
+public class MyFunction extends Expression {
 	String funcName;
 	Program body;
 	List<Variable> args;
@@ -17,6 +17,7 @@ public class MyFunction {
 		this.args = args;
 	}
 	
+	@Override
 	public Object eval(Environment env) {
 		return body.eval(env);
 	}
