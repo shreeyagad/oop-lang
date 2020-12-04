@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class MyClass {
 	
 	String className;
@@ -8,6 +6,10 @@ public class MyClass {
 	public MyClass(String className, Environment environment) {
 		this.className = className;
 		this.environment = environment;
+	}
+	
+	public Environment copyEnvironment() {
+		return environment.copyEnv();
 	}
 
 }

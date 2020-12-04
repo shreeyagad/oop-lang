@@ -72,7 +72,7 @@ public class Token {
 //			
 //		}
 		//Class
-		CLASS,
+		CLASS, DOT, NEW, 
 		
 		//EOF
 		EOF

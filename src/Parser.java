@@ -228,7 +228,10 @@ public class Parser {
 			return assignment();
 		} else if (currTokenType == Token.TokenType.CLASS) {
 			return classDeclaration();
-		} else {
+		} else if (currTokenType == Token.TokenType.NEW) {
+			return newObject();
+		}
+		else {
 			return null;
 		}
 	}
@@ -326,8 +329,6 @@ public class Parser {
 		String funcName = (String) getCurrentToken().getLiteral();
 		increment();
 		
-		System.out.println(funcName);
-		System.out.println(getCurrentTokenType());
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		
 		List<Variable> args = new LinkedList<>();
@@ -370,12 +371,10 @@ public class Parser {
 		List<FunctionDeclaration> methods = new LinkedList<>();
 
 		while (getCurrentTokenType() != Token.TokenType.RBRACKET) {
-			System.out.println("test" + getCurrentTokenType());
-			System.out.println("current " + current);
+
 
 			FunctionDeclaration f = (FunctionDeclaration) newFunction();
-			System.out.println("f: "+f);
-			System.out.println("current " + current);
+
 			methods.add(f);
 			consume(Token.TokenType.SEMICOLON, "Expecting Semicolon after attribute declaration");
 
@@ -386,6 +385,10 @@ public class Parser {
 		
 		return new ClassDeclaration(className, attributes, methods);
 	} 	
+	
+	public Expression newObject() {
+		
+	}
 	
 
 	public Object consume(Token.TokenType type, String errorMessage) throws Exception {

@@ -27,8 +27,7 @@ public class ClassDeclaration extends Expression {
 		}
 		
 		while(methodIt.hasNext()) {
-			MyFunction method = ((MyFunction) methodIt.next().eval(env));
-			newEnv.addVariable(method.funcName, method);
+			methodIt.next().eval(newEnv);
 		}
 		
 		MyClass newClass = new MyClass(className, newEnv);

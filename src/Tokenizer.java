@@ -34,6 +34,7 @@ public class Tokenizer {
 		keywords.put("print", Token.TokenType.PRINT);
 		keywords.put("return", Token.TokenType.RETURN);
 		keywords.put("class", Token.TokenType.CLASS);
+		keywords.put("new", Token.TokenType.NEW);
 	}
 
 	public List<Token> tokenize() {
@@ -94,6 +95,9 @@ public class Tokenizer {
 			else addToken(Token.TokenType.NOT);
 			break;
 			
+		case '.':
+			addToken(Token.TokenType.DOT);
+			break;
 		//String
 		case '\"': scanString(); break;
 
