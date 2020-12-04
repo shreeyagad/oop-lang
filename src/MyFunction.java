@@ -1,5 +1,11 @@
 import java.util.List;
 
+/**
+ * Represents a Function
+ * @param funcName The name of the function
+ * @param body The body of the function
+ * @param args The ordered list of the function's parameters
+ */
 public class MyFunction {
 	String funcName;
 	Program body;
@@ -14,4 +20,9 @@ public class MyFunction {
 	public Object eval(Environment env) {
 		return body.eval(env);
 	}
+
+	public String toString() {
+		return funcName + "(" + args + ") { " + body + " }";
+	}
+
 }

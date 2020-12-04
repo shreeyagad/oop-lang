@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.HashMap;
 
 /**
- * Tokenizer class that creates a list of tokens from a source string
+ * Represents a Tokenizer that creates a list of tokens from a given source string
+ * @param source The string that contains the source code
  *
  */
 public class Tokenizer {
@@ -34,7 +35,6 @@ public class Tokenizer {
 	}
 
 	public List<Token> tokenize() {
-
 		while (current < source.length()) {
 			startOfToken = current;
 			try {
@@ -44,11 +44,9 @@ public class Tokenizer {
 				e.printStackTrace();
 			}
 		}
-
 		tokens.add(new Token(Token.TokenType.EOF, "", null, line));
 		return tokens;
 	}
-
 
 	private void scanToken() throws Exception {
 		char c = nextChar();
@@ -58,7 +56,7 @@ public class Tokenizer {
 		case '\t': break;
 		case '\n': line++; break;
 		
-		//
+		//Punctuation
 		case ';': addToken(Token.TokenType.SEMICOLON); break;
 		case ',': addToken(Token.TokenType.COMMA); break;
 		
@@ -75,8 +73,8 @@ public class Tokenizer {
 		case '+': addToken(Token.TokenType.PLUS); break;
 		case '*': addToken(Token.TokenType.MULTIPLY); break;
 		case '/': addToken(Token.TokenType.DIVIDE); break;
-		case '&': if (peek() == '&') { current++; addToken(Token.TokenType.AND); break; }
-		case '|': if (peek() == '|') { current++; addToken(Token.TokenType.OR); break; }
+		case '&': if (peek() == '&') { current++; addToken(Token.TokenType.AND); }  break; 
+		case '|': if (peek() == '|') { current++; addToken(Token.TokenType.OR); } break; 
 		case '<': 
 			if (peek() == '=') { current++; addToken(Token.TokenType.LESSEQ); }
 			else addToken(Token.TokenType.LESS);
@@ -95,22 +93,20 @@ public class Tokenizer {
 			break;
 			
 		//String
-
 		case '\"': scanString(); break;
 
 		default:
 			//Numbers
 			if (Character.isDigit(c)) {
 				scanNumber();
+			//Keywords
 			} else if (Character.isLetter(c)) {
 				scanKeyword();
 			}
-			
 			else {
 				throw new Exception("Unrecognized character");
 			}
 		}
-
 	}
 
 	private char nextChar() {
@@ -122,11 +118,9 @@ public class Tokenizer {
 		return source.charAt(current);
 	}
 	
-
 	private void addToken(Token.TokenType tokenType) {
 		addToken(tokenType, null);
 	}
-
 
 	private void addToken(Token.TokenType type, Object literal) {
 		String text = source.substring(startOfToken, current);
@@ -137,7 +131,6 @@ public class Tokenizer {
 		Character curr = peek();
 		return (Character.isLetterOrDigit(curr) || curr == '_' || curr == '$');
 	}
-
 
 	private void scanKeyword() {
 		while ((current < source.length()) && validNameChars()) {
@@ -156,7 +149,6 @@ public class Tokenizer {
 		} else {
 			addToken(Token.TokenType.IDENTIFIER, word);
 		}
-		
 	}
 	
 	private void scanNumber() {
@@ -165,16 +157,14 @@ public class Tokenizer {
 		}
 		addToken(Token.TokenType.NUMBER, Integer.parseInt(source.substring(startOfToken, current)));
 	}
-
 	
 	private void scanString() {
-		
 		while ((current < source.length()) && peek() != '\"') {
 			current++;
 		}
 		current++;
-
 		//TODO: Escape sequences
 		addToken(Token.TokenType.STRING, source.substring(startOfToken + 1, current-1));
 	}
+	
 }

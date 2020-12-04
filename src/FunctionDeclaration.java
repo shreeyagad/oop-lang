@@ -20,4 +20,5 @@ public class FunctionDeclaration extends Expression {
 	public String toString() {
 		return "function " + funcName + "(" + args + ") { " + body + "}";
 	}
+	
 }

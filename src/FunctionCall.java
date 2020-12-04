@@ -2,6 +2,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Represents a FunctionCall expression
+ * @param funcName The name of the function
+ * @param argExprs The ordered list of expressions corresponding to the 
+ * 				   function's parameters
+ */
 public class FunctionCall extends Expression {
 	String funcName;
 	List<Expression> argExprs;
@@ -35,4 +41,5 @@ public class FunctionCall extends Expression {
 	public String toString() {
 		return funcName + "(" + argExprs + ")";
 	}
+	
 }

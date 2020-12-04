@@ -1,11 +1,17 @@
-
+/**
+ * Represents an Assignment Expression
+ * @param var The variable that will store the expression
+ * @param expr The expression that will be assigned to the variable
+ * @param reassignment The boolean representing whether the variable has been 
+ * 					   previously declared
+ */
 public class Assignment extends Expression {
 	Variable var;
 	Expression expr;
 	Boolean reassignment;
 	
-	public Assignment(Variable v, Expression expr, Boolean reassignment) {
-		this.var = v;
+	public Assignment(Variable var, Expression expr, Boolean reassignment) {
+		this.var = var;
 		this.expr = expr;
 		this.reassignment = reassignment;
 	}

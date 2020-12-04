@@ -1,4 +1,8 @@
-
+/**
+ * Represents a Variable
+ * @param name The name of the variable
+ * @param type The type of the variable
+ */
 public class Variable extends Expression {
 	String name;
 	String type;
@@ -23,4 +27,5 @@ public class Variable extends Expression {
 	public String toString() {
 		return name;
 	}
+	
 }

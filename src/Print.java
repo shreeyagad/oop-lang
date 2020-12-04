@@ -1,4 +1,7 @@
-
+/**
+ * Represents a Print Statement
+ * @param value The expression that will be evaluated and printed
+ */
 public class Print extends Expression {
 	Expression e;
 	

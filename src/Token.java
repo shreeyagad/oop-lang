@@ -1,6 +1,9 @@
 /**
- * Represents a token for a program
- *
+ * Represents a token in the program
+ * @param type The type of the Token
+ * @param lexeme The string representation of the Token in the source code
+ * @param literal The primitive value of the Token
+ * @param line The line # in the source code where the Token is found
  */
 public class Token {
 	
@@ -17,18 +20,16 @@ public class Token {
 	}
 	
 	static enum TokenType {
-		//Unary Operators
+		//Unary Operator
 		NOT,
 		
-		//Binary Operators
-		
-		//Arithmetic 
+		//Arithmetic Operators
 		PLUS, MINUS, MULTIPLY, DIVIDE, 
 		
-		//Comparison
+		//Comparison Operators
 		LESS, GREATER, EQUALS, GREATEREQ, LESSEQ, NOTEQ,
 		
-		//Boolean
+		//Boolean Operators
 		AND, OR,
 		
 		//Assignment
@@ -49,8 +50,7 @@ public class Token {
 		//Brackets
 		LBRACKET, RBRACKET,
 		
-		//Function 
-		// function foo(int num, boolean b) { print num; print b; }
+		//Functions
 		FUNCTION, PRINT,
 		
 		//If, Else
@@ -59,15 +59,14 @@ public class Token {
 		//Loops
 		WHILE,
 		
-		
+		//EOF
 		EOF
 	}
-	
 
 	public TokenType getType() {
 		return type;
 	}
-	
+
 	public String getLexeme() {
 		return lexeme;
 	}
@@ -79,7 +78,7 @@ public class Token {
 	public int getLineNumber() {
 		return line;
 	}
-	
+
 	public String toString() {
 		return lexeme;
 	}
@@ -87,5 +86,5 @@ public class Token {
 	public boolean equals(Object t2) {
 		return (this.lexeme).equals(((Token) t2).lexeme);
 	}
-
+	
 }

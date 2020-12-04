@@ -1,4 +1,8 @@
 import java.util.HashMap;
+
+/**
+ * Represents an Environment for a Program
+ */
 public class Environment {
 	HashMap<String, Object> mappings;
 	public Environment() {
@@ -27,4 +31,5 @@ public class Environment {
 		newEnv.mappings = (HashMap<String, Object>) mappings.clone();
 		return newEnv;
 	}
+
 }

@@ -1,10 +1,10 @@
 import java.util.List;
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A Parser class to create an abstract syntax tree from a list of tokens *
+ * Represents a Parser that creates an abstract syntax tree from a list of tokens
+ * @param t The Tokenizer which contains the tokens that the Parser will parse
  */
 public class Parser {
 
@@ -37,14 +37,8 @@ public class Parser {
 			current++;
 		}
 	}
-	
-	private void decrement() {
-		if (current > 0) {
-			current--;
-		}
-	}
 
-	private boolean matchesType(List<Token.TokenType> tokenTypes) throws Exception {
+	private boolean matchesType(List<Token.TokenType> tokenTypes) {
 		if (atEOF()) {
 			return false;
 		}
@@ -53,7 +47,7 @@ public class Parser {
 	}
 
 	public Program parseTokens() throws Exception {
-		LinkedList<Statement> lst = new LinkedList<Statement>();
+		LinkedList<Statement> lst = new LinkedList<>();
 		return statements(lst);
 	}
 
@@ -71,7 +65,7 @@ public class Parser {
 		return disjunction();
 	}
 
-	// Or
+	// OR
 	private Expression disjunction() throws Exception {
 		Expression e = conjunction();
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.OR);
@@ -87,7 +81,7 @@ public class Parser {
 		return e;
 	}
 
-	// And
+	// AND
 	private Expression conjunction() throws Exception {
 		Expression e = equality();
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.AND);
@@ -101,11 +95,10 @@ public class Parser {
 		}
 
 		return e;
-
 	}
 
+	// EQUALS, NOTEQ
 	private Expression equality() throws Exception {
-		// EQUALS
 		Expression e = comparison();
 
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.EQUALS, Token.TokenType.NOTEQ);
@@ -119,11 +112,10 @@ public class Parser {
 		}
 
 		return e;
-
 	}
 
+	// LESS, GREATER, LESSEQ, GREATEREQ
 	private Expression comparison() throws Exception {
-		// LESS, GREATER
 		Expression e = term();
 
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.GREATER, Token.TokenType.LESS,
@@ -138,11 +130,10 @@ public class Parser {
 		}
 
 		return e;
-
 	}
-
+	
+	// PLUS, MINUS
 	private Expression term() throws Exception {
-		// PLUS, MINUS
 		Expression e = factor();
 
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.PLUS, Token.TokenType.MINUS);
@@ -151,18 +142,15 @@ public class Parser {
 			increment();
 			Expression left = e;
 			Token.TokenType op = getPreviousToken().getType();
-			// Token op = getPreviousToken();
 			Expression right = term();
 			e = new BinopExpr(op, left, right);
 		}
 
 		return e;
-
 	}
 
+	// MULTIPLY, DIVIDE
 	private Expression factor() throws Exception {
-		// MULTIPLY, DIVIDE
-
 		Expression e = unary();
 
 		List<Token.TokenType> allowedTypes = Arrays.asList(Token.TokenType.MULTIPLY, Token.TokenType.DIVIDE);
@@ -176,11 +164,10 @@ public class Parser {
 		}
 
 		return e;
-
 	}
 
+	// NOT
 	private Expression unary() throws Exception {
-		// NOT
 		if (getCurrentToken().getType() == Token.TokenType.NOT) {
 			increment();
 			Expression e = literal();
@@ -190,11 +177,8 @@ public class Parser {
 		}
 	}
 
-	
-
+	// NUMBER, BOOLEAN, STRING
 	private Expression literal() throws Exception {
-		// NUMBER, BOOLEAN, STRING
-
 		Token currToken = getCurrentToken();
 		Token.TokenType currTokenType = currToken.getType();
 		Object literal = currToken.getLiteral();
@@ -230,9 +214,9 @@ public class Parser {
 		} else {
 			return null;
 		}
-		
 	}
 
+	// WHILE
 	private Expression whileStatement() throws Exception {
 		increment();
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
@@ -240,31 +224,33 @@ public class Parser {
 		System.out.println(condition);
 		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
-		Program body = statements(new LinkedList<Statement>());
+		Program body = statements(new LinkedList<>());
 		System.out.println(body);
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 
 		return new WhileStatement(condition, body);
 	}
 
+	// IF, ELIF, ELSE
 	private Expression ifStatement() throws Exception {
 		increment();
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		Expression condition = expression();
 		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
-		Program tBody = statements(new LinkedList<Statement>());
+		Program tBody = statements(new LinkedList<>());
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 		Program fBody = null;
 		if (getCurrentToken().getType() == Token.TokenType.ELSE) {
 			increment();
 			consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
-			fBody = statements(new LinkedList<Statement>());
+			fBody = statements(new LinkedList<>());
 			consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 		}
 		return new IfElseStatement(condition, tBody, fBody);
 	}
 
+	// ASSIGN 
 	private Expression assignment() throws Exception {
 		String type = (String) getCurrentToken().getLiteral();
 		
@@ -279,16 +265,16 @@ public class Parser {
 		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
 			increment();
 			Expression e = expression();
-			Assignment assignment = new Assignment(v, e, !newVar);
-			return assignment;
+			return new Assignment(v, e, !newVar);
 		}
 		return null;
 	}
 
+	// FUNCTION CALL
 	public Expression call(String funcName) throws Exception {
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		List<Expression> args = new LinkedList<>();
-		if (!(getCurrentToken().getType() == Token.TokenType.RPAREN)) {
+		if (getCurrentToken().getType() != Token.TokenType.RPAREN) {
 			args.add(expression());
 			while (getCurrentToken().getType() == Token.TokenType.COMMA) {
 				increment();
@@ -299,6 +285,7 @@ public class Parser {
 		return new FunctionCall(funcName, args);
 	}
 
+	// IDENTIFIER	
 	public Expression identifier() throws Exception {
 		if (getNextToken().getType() == Token.TokenType.ASSIGN) {
 			return assignment();
@@ -313,6 +300,7 @@ public class Parser {
 		}
 	}
 	
+	// FUNCTION DECLARATION
 	private Expression newFunction() throws Exception {
 		increment();
 		String funcName = (String) getCurrentToken().getLiteral();
@@ -320,7 +308,7 @@ public class Parser {
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		
 		List<Variable> args = new LinkedList<>();
-		if (!(getCurrentToken().getType() == Token.TokenType.RPAREN)) {
+		if (getCurrentToken().getType() != Token.TokenType.RPAREN) {
 			do {
 				if (getCurrentToken().getType() == Token.TokenType.COMMA) {
 					increment();
@@ -336,7 +324,6 @@ public class Parser {
 		Program body = parseTokens();
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 		return new FunctionDeclaration(funcName, body, args);
-		
 	}
 
 	public Object consume(Token.TokenType type, String errorMessage) throws Exception {
