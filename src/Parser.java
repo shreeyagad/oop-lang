@@ -29,7 +29,7 @@ public class Parser {
 	}
 	
 	private Token.TokenType getCurrentTokenType() {
-		return getCurrentTokenType();
+		return getCurrentToken().getType();
 	}
 
 	private boolean atEOF() {
