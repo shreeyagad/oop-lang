@@ -1,18 +1,38 @@
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
 public class FunctionCall extends Expression {
 	String funcName;
-	List<Expression> args;
+	List<Expression> argExprs;
 	
-	public FunctionCall(String funcName, List<Expression> args) {
+	public FunctionCall(String funcName, List<Expression> argExprs) {
 		this.funcName = funcName;
-		this.args = args;
+		this.argExprs = argExprs;
 	}
 	
 	public Object eval(Environment env) {
-		String s = funcName.eval(env).toString();
-		Function function = (Function) env.getValue(s);
-		return function.apply(args);
+		MyFunction f = (MyFunction) env.getValue(funcName);
+		Environment newEnv = env.copyEnv();
+		if (f.args.size() == argExprs.size()) {
+			Iterator<Variable> argsIt = f.args.iterator();
+			Iterator<Expression> argExprsIt = argExprs.iterator();
+
+			while (argsIt.hasNext() && argExprsIt.hasNext()) {
+				String varName = argsIt.next().getName();
+				Object argValue = argExprsIt.next().eval(env);
+				newEnv.addVariable(varName, argValue);
+			}
+			
+			return f.eval(newEnv);
+			
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public String toString() {
+		return funcName + "(" + argExprs + ")";
 	}
 }

@@ -37,6 +37,12 @@ public class Parser {
 			current++;
 		}
 	}
+	
+	private void decrement() {
+		if (current > 0) {
+			current--;
+		}
+	}
 
 	private boolean matchesType(List<Token.TokenType> tokenTypes) throws Exception {
 		if (atEOF()) {
@@ -260,19 +266,20 @@ public class Parser {
 	}
 
 	private Expression assignment() throws Exception {
-
 		String type = (String) getCurrentToken().getLiteral();
+		
 		boolean newVar = (type.equals("int") || type.equals("boolean") || type.equals("String"));
 		if (newVar) {
 			increment();
 		}
 		String identifier = (String) getCurrentToken().getLiteral();
+		Variable v = new Variable(identifier, type);
 		increment();
 		// TODO: handle types of old variables
 		if (getCurrentToken().getType() == Token.TokenType.ASSIGN) {
 			increment();
 			Expression e = expression();
-			Assignment assignment = new Assignment(type, identifier, e, !newVar);
+			Assignment assignment = new Assignment(v, e, !newVar);
 			return assignment;
 		}
 		return null;
@@ -296,45 +303,46 @@ public class Parser {
 		if (getNextToken().getType() == Token.TokenType.ASSIGN) {
 			return assignment();
 		} else if (getNextToken().getType() == Token.TokenType.LPAREN) {
-			//function call
+			String funcName = (String) getCurrentToken().getLiteral();
 			increment();
-			return call((String) getCurrentToken().getLiteral());
+			return call(funcName);
 		} else {
 			String name = (String) getCurrentToken().getLiteral();
 			increment();
-			return new Variable(name);
+			return new Identifier(name);
 		}
 	}
 	
 	private Expression newFunction() throws Exception {
-		// New FUNCTION
-		// function foo(int num, boolean b) { print num; print b; }
-		// int num = 1; foo(2, true); print(num)
-		
 		increment();
-		
-		
+		String funcName = (String) getCurrentToken().getLiteral();
+		increment();
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		
-		List<Expression> args = new LinkedList<>();
+		List<Variable> args = new LinkedList<>();
 		if (!(getCurrentToken().getType() == Token.TokenType.RPAREN)) {
-			args.add(expression());
-			while (getCurrentToken().getType() == Token.TokenType.COMMA) {
-				increment();
-				args.add(expression());
+			do {
+				if (getCurrentToken().getType() == Token.TokenType.COMMA) {
+					increment();
+				}
+				String argType = (String) consume(Token.TokenType.VARTYPE, "Expecting token of type VARTYPE");
+				String identifier = (String) consume(Token.TokenType.IDENTIFIER, "Expecting token of type IDENTIFIER");
+				args.add(new Variable(identifier, argType));
 			}
+			while (getCurrentToken().getType() == Token.TokenType.COMMA);
 		}
-		
-		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
-
-		
-		return null;
+		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
+		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
+		Program body = parseTokens();
+		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
+		return new FunctionDeclaration(funcName, body, args);
 		
 	}
 
-	public void consume(Token.TokenType type, String errorMessage) throws Exception {
+	public Object consume(Token.TokenType type, String errorMessage) throws Exception {
 		if (getCurrentToken().getType() == type) {
 			increment();
+			return getPreviousToken().getLiteral();
 		} else {
 			throw new Exception(errorMessage);
 		}

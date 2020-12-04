@@ -21,4 +21,10 @@ public class Environment {
 	public Object getValue(String name) {
 		return mappings.get(name);
 	}
+	
+	public Environment copyEnv() {
+		Environment newEnv = new Environment();
+		newEnv.mappings = (HashMap<String, Object>) mappings.clone();
+		return newEnv;
+	}
 }

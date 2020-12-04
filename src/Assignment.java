@@ -1,25 +1,24 @@
 
 public class Assignment extends Expression {
-	String name;
-	String type;
+	Variable var;
 	Expression expr;
 	Boolean reassignment;
 	
-	public Assignment(String type, String name, Expression expr, Boolean reassignment) {
-		this.type = type;
-		this.name = name;
+	public Assignment(Variable v, Expression expr, Boolean reassignment) {
+		this.var = v;
 		this.expr = expr;
 		this.reassignment = reassignment;
 	}
 	
 	public Object eval(Environment env) {
+		//TODO: Type check assignment statements
 		Object value = expr.eval(env);
 		if (!reassignment) {
-			env.addVariable(name, value);
+			env.addVariable(var.getName(), value);
 		}
 		else {
 			try {
-				env.changeVariable(name, value);
+				env.changeVariable(var.getName(), value);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -29,7 +28,7 @@ public class Assignment extends Expression {
 	}
 	
 	public String toString() {
-		return type + " " + name + " := " + expr;
+		return var.getType() + " " + var.getName() + " := " + expr;
 	}
 
 }
