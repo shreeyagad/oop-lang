@@ -10,8 +10,9 @@ public class MethodCall extends Expression {
 	
 	public Object eval(Environment env) {
 		MyObject o = (MyObject) env.getValue(objectName);
+		MyClass c = (MyClass) o.env.getClass(o.className);
 		Environment newEnv = o.env.copyEnv();
-		MyFunction f = (MyFunction) o.env.getValue(method.funcName);
+		MyFunction f = (MyFunction) c.environment.getValue(method.funcName);
 		return f.eval(newEnv);
 	}
 	

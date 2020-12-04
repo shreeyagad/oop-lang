@@ -28,11 +28,15 @@ public class Main {
 		 		+ "function addAttr() { return num + num; }; "
 		 		+ "}; "
 		 		+ "myClass c = new myClass(2, true); "
-		 		+ "c.addAttr();";
-		 Tokenizer t = new Tokenizer(source);
-		 List<Token> tokens = t.tokenize();
-		 System.out.println(tokens);
-		 Parser p = new Parser(t);
+		 		+ "myClass c2 = new myClass(3, false); "
+		 		+ "print(c.addAttr());"
+		 		+ "print(c2.addAttr());"
+		 		+ "print(c.num);"
+		 		+ "print(c2.num);";
+//		 Tokenizer t = new Tokenizer(source);
+//		 List<Token> tokens = t.tokenize();
+//		 System.out.println(tokens);
+//		 Parser p = new Parser(t);
 //		 System.out.println(p.parseTokens());
 		 Environment env = new Environment();
 		 System.out.println(Interpreter.evaluate(source, env));
