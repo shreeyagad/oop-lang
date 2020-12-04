@@ -1,5 +1,11 @@
 import java.util.List;
 
+/**
+ * Represents a FunctionDeclaration expression
+ * @param funcName The name of the function
+ * @param body The body of the function
+ * @param args The ordered list of the function's parameters
+ */
 public class FunctionDeclaration extends Expression {
 	String funcName;
 	Program body;

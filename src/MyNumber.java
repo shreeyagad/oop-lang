@@ -1,6 +1,6 @@
 /**
  * Represents a Number
- * @param value The value given to the number (can only be type int)
+ * @param value The value given to the Number (can only be type int)
  */
 public class MyNumber extends Expression {
 	int value;

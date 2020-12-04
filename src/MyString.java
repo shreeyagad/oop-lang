@@ -1,6 +1,6 @@
 /**
- * Represents a Boolean
- * @param value The value given to the boolean (true or false)
+ * Represents a String
+ * @param value The value given to the String
  */
 public class MyString extends Expression {
 	String value;
