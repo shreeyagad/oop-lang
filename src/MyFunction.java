@@ -16,10 +16,17 @@ public class MyFunction extends Expression {
 		this.body = body;
 		this.args = args;
 	}
-	
+
 	@Override
 	public Object eval(Environment env) {
-		return body.eval(env);
+		Object returnValue = null;
+		try {
+			returnValue = body.eval(env);
+		}
+		catch (ReturnException foundReturn) {
+			returnValue = foundReturn.value;
+		}
+		return returnValue;
 	}
 
 	public String toString() {

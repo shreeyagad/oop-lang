@@ -1,5 +1,5 @@
 /**
- * Represents an Interpreter, that tokenizes, parses, and evaluates the given
+ * Represents an Interpreter that tokenizes, parses, and evaluates the given
  * source code
  */
 public class Interpreter {

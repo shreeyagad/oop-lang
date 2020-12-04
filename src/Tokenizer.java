@@ -19,7 +19,7 @@ public class Tokenizer {
 	Tokenizer(String source) {
 		this.source = source;
 		this.tokens = new ArrayList<>();
-		this.keywords = new HashMap<String, Token.TokenType>();
+		this.keywords = new HashMap<>();
 		keywords.put("false", Token.TokenType.BOOLEAN);
 		keywords.put("true", Token.TokenType.BOOLEAN);
 		keywords.put("int", Token.TokenType.VARTYPE);
