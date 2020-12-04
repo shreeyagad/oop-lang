@@ -146,20 +146,34 @@ public class Tests {
 	@Test
 	public void test14() throws Exception {
 		System.out.println("test14");
-		String source = "int n = 10; function printNum(int n) { while(n >= 0) { print(n); n = n - 1; }; }; printNum(n); n;";
+		String source = "int n = 10; function printNum(int n) { while(n >= 0) { n = n - 1; }; }; printNum(n); n;";
 		System.out.println(Interpreter.evaluate(source));
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
-		assertEquals(Interpreter.evaluate(source), -1);
+		assertEquals(Interpreter.evaluate(source), 10);
 	}
 	
 	@Test
 	public void test15() throws Exception {
 		System.out.println("test15");
-		String source = "int n = 5; int sum = 0; while(n >= 0) { print(n); sum = sum + n; n = n - 1; }; }; printNum(sum); sum;";
-		System.out.println("hi");
-		System.out.println(Interpreter.evaluate(source));
-		
+		String source = "int n = 5; int sum = 0; while(n >= 0) { sum = sum + n; n = n - 1; }; sum;";
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 15);
+	}
+	
+	@Test
+	public void test16() throws Exception {
+		System.out.println("test16");
+		String source = 	"class myClass { "
+				+ "int num; boolean bool; "
+				+ "function myClass(int n, boolean b) {"
+				+ "num = n; bool = b; "
+				+ "}; "
+				+ "function addAttr() { return num + num; }; "
+				+ "}; "
+				+ "myClass c = new myClass(2, true); "
+				+ "myClass c2 = new myClass(3, false); "
+				+ "c.addAttr();";
+		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), 4);
 	}
 }
