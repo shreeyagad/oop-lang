@@ -20,8 +20,15 @@ public class Main {
 //			input = sc.nextLine();
 //		}
 
-		 String source = "class myClass { int num; boolean bool; function myClass(int n, boolean b) "
-		 		+ "{ num = n; bool = b; }; }; myClass c = new myClass(2, true); c.num;";
+		 String source = "class myClass { "
+		 		+ "int num; boolean bool; "
+		 		+ "function myClass(int n, boolean b) {"
+		 		+ "num = n; bool = b; "
+		 		+ "}; "
+		 		+ "function addAttr() { return num + num; }; "
+		 		+ "}; "
+		 		+ "myClass c = new myClass(2, true); "
+		 		+ "c.addAttr();";
 		 Tokenizer t = new Tokenizer(source);
 		 List<Token> tokens = t.tokenize();
 		 System.out.println(tokens);

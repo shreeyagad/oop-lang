@@ -17,24 +17,32 @@ public class ClassDeclaration extends Expression {
 	@Override
 	public Object eval(Environment env) {
 		
-		Environment newEnv = new Environment();
+		Environment newEnv = env.copyEnv();
 		
 		Iterator<Variable> attributeIt = attributes.iterator();
 		Iterator<FunctionDeclaration> methodIt = methods.iterator();
+		
 		
 		while(attributeIt.hasNext()) {
 			newEnv.addVariable(attributeIt.next().name, null);
 		}
 		
+//		MyFunction constructor = (MyFunction) methodIt.next().eval(env);
+//		System.out.println(constructor);
+//		env.addVariable(className, constructor);
+		
 		while(methodIt.hasNext()) {
 			methodIt.next().eval(newEnv);
 		}
 		
-		MyClass newClass = new MyClass(className, newEnv);
-		env.addVariable(className, newClass);
+		MyClass newClass = new MyClass(className, attributes, newEnv);
+		env.addClass(className, newClass);
 		
 		return null;
 	}
 
+	public String toString() {
+		return "class " + className + " { " + attributes + methods + " }";
+	}
 
 }

@@ -10,6 +10,10 @@ public class Identifier extends Expression {
 		this.name = name;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	@Override
 	public Object eval(Environment env) {
 		return env.getValue(name);

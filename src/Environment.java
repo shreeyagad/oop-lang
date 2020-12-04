@@ -5,8 +5,11 @@ import java.util.HashMap;
  */
 public class Environment {
 	HashMap<String, Object> mappings;
+	HashMap<String, MyClass> classes;
+	
 	public Environment() {
 		mappings = new HashMap<>();
+		classes = new HashMap<>();
 	}
 	
 	public void addVariable(String name, Object value) {
@@ -26,10 +29,23 @@ public class Environment {
 		return mappings.get(name);
 	}
 	
+	public void addClass(String className, MyClass myClass) {
+		classes.put(className, myClass);
+	}
+	
+	public MyClass getClass(String className) {
+		return classes.get(className);
+	}
+	
 	public Environment copyEnv() {
 		Environment newEnv = new Environment();
 		newEnv.mappings = (HashMap<String, Object>) (mappings.clone());
+		newEnv.classes = (HashMap<String, MyClass>) (classes.clone());
 		return newEnv;
+	}
+	
+	public String toString() {
+		return "mappings: " + mappings + ";\nclasses: " + classes;
 	}
 
 }

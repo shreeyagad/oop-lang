@@ -28,6 +28,10 @@ public class Parser {
 		return tokens.get(current + 1);
 	}
 	
+	private Token peekToken(int n) {
+		return tokens.get(current + n);
+	}
+	
 	private Token.TokenType getCurrentTokenType() {
 		return getCurrentToken().getType();
 	}
@@ -232,7 +236,7 @@ public class Parser {
 			return newObject();
 		}
 		else {
-			return null;
+			throw new Exception("Unknown literal");
 		}
 	}
 
@@ -274,16 +278,15 @@ public class Parser {
 
 	// ASSIGN 
 	private Expression assignment() throws Exception {
-		String type = (String) getCurrentToken().getLiteral();
-		
-		boolean newVar = (type.equals("int") 
-				|| type.equals("boolean") 
-				|| type.equals("String"));
-		if (newVar) {
+		String typeOrId = (String) getCurrentToken().getLiteral();
+		Boolean newVar = false;
+		if (getNextToken().getType() != Token.TokenType.ASSIGN) {
+			newVar = true;
 			increment();
 		}
+
 		String identifier = (String) getCurrentToken().getLiteral();
-		Variable v = new Variable(identifier, type);
+		Variable v = new Variable(identifier, typeOrId);
 		increment();
 		if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
 			increment();
@@ -294,7 +297,7 @@ public class Parser {
 	}
 
 	// FUNCTION CALL
-	public Expression call(String funcName) throws Exception {
+	public Expression call(String funcName, Boolean isConstructor) throws Exception {
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		List<Expression> args = new LinkedList<>();
 		if (getCurrentTokenType() != Token.TokenType.RPAREN) {
@@ -305,17 +308,35 @@ public class Parser {
 			}
 		}
 		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
+		if (isConstructor) {
+			return new Constructor(funcName, args);
+		}
 		return new FunctionCall(funcName, args);
 	}
 
 	// IDENTIFIER	
 	public Expression identifier() throws Exception {
-		if (getNextToken().getType() == Token.TokenType.ASSIGN) {
+		if ((getNextToken().getType() == Token.TokenType.ASSIGN) || 
+				(peekToken(2).getType() == Token.TokenType.ASSIGN)) { 
 			return assignment();
 		} else if (getNextToken().getType() == Token.TokenType.LPAREN) {
 			String funcName = (String) getCurrentToken().getLiteral();
 			increment();
-			return call(funcName);
+			return call(funcName, false);
+		} else if (getNextToken().getType() == Token.TokenType.DOT) {
+			String objectName = (String) getCurrentToken().getLiteral();
+			increment();
+			consume(Token.TokenType.DOT, "Expecting token of type DOT");
+			Expression e = expression();
+			if (e instanceof FunctionCall) {
+				return new MethodCall(objectName, (FunctionCall) e);
+			}
+			else if (e instanceof Identifier){
+				return new AttributeCall(objectName, ((Identifier) e).getName());
+			}
+			else {
+				throw new Exception("Can only access attributes and methods of object " + objectName);
+			}
 		} else {
 			String name = (String) getCurrentToken().getLiteral();
 			increment();
@@ -386,10 +407,11 @@ public class Parser {
 		return new ClassDeclaration(className, attributes, methods);
 	} 	
 	
-	public Expression newObject() {
-		
+	public Expression newObject() throws Exception {
+		increment();
+		String className = (String) consume(Token.TokenType.IDENTIFIER, "Expecting token of type IDENTIFIER");
+		return call(className, true);
 	}
-	
 
 	public Object consume(Token.TokenType type, String errorMessage) throws Exception {
 		if (getCurrentTokenType() == type) {
