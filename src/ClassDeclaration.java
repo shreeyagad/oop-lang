@@ -27,10 +27,6 @@ public class ClassDeclaration extends Expression {
 			newEnv.addVariable(attributeIt.next().name, null);
 		}
 		
-//		MyFunction constructor = (MyFunction) methodIt.next().eval(env);
-//		System.out.println(constructor);
-//		env.addVariable(className, constructor);
-		
 		while(methodIt.hasNext()) {
 			methodIt.next().eval(newEnv);
 		}

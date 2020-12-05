@@ -247,11 +247,9 @@ public class Parser {
 		increment();
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		Expression condition = expression();
-		System.out.println(condition);
 		consume(Token.TokenType.RPAREN, "Expecting token of type RPAREN");
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
 		Program body = statements(new LinkedList<>());
-		System.out.println(body);
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
 
 		return new WhileStatement(condition, body);
