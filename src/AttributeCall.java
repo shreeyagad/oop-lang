@@ -1,4 +1,8 @@
-
+/**
+ * Represents a AttributeCall expression
+ * @param objectName The name of the object
+ * @param attrName The name of the attribute
+ */
 public class AttributeCall extends Expression {
 	String objectName;
 	String attrName;
@@ -8,10 +12,10 @@ public class AttributeCall extends Expression {
 		this.attrName = attrName;
 	}
 	
+	@Override
 	public Object eval(Environment env) {
 		MyObject o = (MyObject) env.getValue(objectName);
-		Object value = o.env.getValue(attrName);
-		return value;
+		return o.env.getValue(attrName);
 	}
 	
 	public String toString() {

@@ -18,7 +18,6 @@ public class Assignment extends Expression {
 	
 	@Override
 	public Object eval(Environment env) {
-		//TODO: Type check assignment statements
 		Object value = expr.eval(env);
 		if (!reassignment) {
 			env.addVariable(var.getName(), value);
@@ -31,7 +30,7 @@ public class Assignment extends Expression {
 				e.printStackTrace();
 			}
 		}
-		return value;
+		return null;
 	}
 	
 	public String toString() {

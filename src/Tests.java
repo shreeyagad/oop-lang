@@ -146,7 +146,7 @@ public class Tests {
 	@Test
 	public void test14() throws Exception {
 		System.out.println("test14");
-		String source = "int n = 10; function printNum(int n) { while(n >= 0) { n = n - 1; }; }; printNum(n); n;";
+		String source = "int n = 10; function printNum(int n) { while(n >= 0) { n = n - 1; }; }; n;";
 		System.out.println(Interpreter.evaluate(source));
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 10);

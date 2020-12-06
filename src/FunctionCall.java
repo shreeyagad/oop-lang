@@ -15,11 +15,17 @@ public class FunctionCall extends Expression {
 		this.funcName = funcName;
 		this.argExprs = argExprs;
 	}
-	
-	@Override
+
 	public Object eval(Environment env) {
+		return evalCall(env, env.copyEnv());
+	}
+
+	public Object evalMethod(Environment env) {
+		return evalCall(env, env);
+	}
+
+	private Object evalCall(Environment env, Environment newEnv) {
 		MyFunction f = (MyFunction) env.getValue(funcName);
-		Environment newEnv = env.copyEnv();
 		if (f.args.size() == argExprs.size()) {
 			Iterator<Variable> argsIt = f.args.iterator();
 			Iterator<Expression> argExprsIt = argExprs.iterator();
@@ -31,7 +37,6 @@ public class FunctionCall extends Expression {
 			}
 			
 			return f.eval(newEnv);
-			
 		}
 		else {
 			return null;

@@ -16,11 +16,15 @@ public class WhileStatement extends Expression {
 	
 	@Override
 	public Object eval(Environment env) {
-		Object p = null;
 		while ((boolean) condition.eval(env)) {
-			p = body.eval(env);
+			try {
+				body.eval(env);
+			}
+			catch (BreakException b) {
+				break;
+			}
 		}
-		return p;
+		return null;
 	}
 	
 	public String toString() {

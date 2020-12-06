@@ -30,6 +30,7 @@ public class Tokenizer {
 		keywords.put("elif", Token.TokenType.ELIF);
 		keywords.put("else", Token.TokenType.ELSE);
 		keywords.put("while", Token.TokenType.WHILE);
+		keywords.put("break", Token.TokenType.BREAK);
 		keywords.put("function", Token.TokenType.FUNCTION);
 		keywords.put("print", Token.TokenType.PRINT);
 		keywords.put("return", Token.TokenType.RETURN);

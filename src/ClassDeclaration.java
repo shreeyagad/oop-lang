@@ -1,6 +1,13 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents a ClassDeclaration expression
+ * @param className The name of the class
+ * @param methods The list of function declarations corresponding to the class's methods
+ * @param attributes The list of variables corresponding to the class's attributes
+ */
 public class ClassDeclaration extends Expression {
 	String className;
 	List<FunctionDeclaration> methods;
@@ -10,9 +17,7 @@ public class ClassDeclaration extends Expression {
 		this.className = className;
 		this.attributes = attributes;
 		this.methods = methods;
-
 	}
-	
 	
 	@Override
 	public Object eval(Environment env) {
@@ -21,17 +26,22 @@ public class ClassDeclaration extends Expression {
 		
 		Iterator<Variable> attributeIt = attributes.iterator();
 		Iterator<FunctionDeclaration> methodIt = methods.iterator();
-		
-		
+		List<String> attrNames = new LinkedList<>();
+		List<String> methodNames = new LinkedList<>();
+
 		while(attributeIt.hasNext()) {
-			newEnv.addVariable(attributeIt.next().name, null);
+			Variable attribute = attributeIt.next();
+			attrNames.add(attribute.name);
+			newEnv.addVariable(attribute.name, null);
 		}
 		
 		while(methodIt.hasNext()) {
-			methodIt.next().eval(newEnv);
+			FunctionDeclaration method = methodIt.next();
+			methodNames.add(method.funcName);
+			method.eval(newEnv);
 		}
 		
-		MyClass newClass = new MyClass(className, attributes, newEnv);
+		MyClass newClass = new MyClass(className, attrNames, methodNames, newEnv);
 		env.addClass(className, newClass);
 		
 		return null;

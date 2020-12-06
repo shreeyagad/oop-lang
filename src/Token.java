@@ -60,17 +60,8 @@ public class Token {
 		IF, ELIF, ELSE,
 		
 		//Loops
-		WHILE,
+		WHILE, BREAK,
 		
-		
-//		class something {
-//			int n;
-//			something() {
-				
-//			}
-//		}
-//			
-//		}
 		//Class
 		CLASS, DOT, NEW, 
 		

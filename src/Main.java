@@ -3,21 +3,34 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("OOPLang Interpreter\n");
-		Scanner sc = new Scanner(System.in);
-		System.out.print(">> ");
-		String input = sc.nextLine();
-		Environment env = new Environment();
-		while (!input.equals("end")) {
-			try {
-				if (!input.equals("")) System.out.println(Interpreter.evaluate(input, env));
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			System.out.println();
-			System.out.print(">> ");
-			input = sc.nextLine();
-		}
+		// System.out.println("\nOOPLang Interpreter\n");
+		// Scanner sc = new Scanner(System.in);
+		// System.out.print(">> ");
+		// Environment env = new Environment();
+
+		// while (true) {
+		// 	StringBuilder sb = new StringBuilder(sc.nextLine());
+		// 	while (sb.length() > 0 && !(sb.substring(sb.length()-2).equals(";;")))
+		// 		sb.append(sc.nextLine());
+		// 	if (sb.toString().equals("end;;"))
+		// 		break;
+		// 	try {
+		// 		if (!(sb.toString().equals(""))) {
+		// 			Object o = Interpreter.evaluate(sb.substring(0, sb.length()-1), env);
+		// 			if (o != null) System.out.println(Interpreter.evaluate(sb.substring(0, sb.length()-1), env));
+		// 		}
+		// 	} catch (Exception e) {
+		// 		System.out.println(e.getMessage());
+		// 	}
+		// 	System.out.print("\n>> ");
+		// }
+
+		// sc.close();
+		String s = "int num = 5; while (num > 0) { num = num - 1; break; num = num - 1; }; num;";
+		Tokenizer t = new Tokenizer(s);
+		Parser p = new Parser(t);
+		System.out.println(p.parseTokens());
+		System.out.println(Interpreter.evaluate(s));
 	}
 
 }

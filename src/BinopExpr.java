@@ -31,8 +31,8 @@ public class BinopExpr extends Expression {
 	public Object eval(Environment env) {
 		switch (op) {
 		case PLUS:
-			if (leftExpr.eval(env) instanceof String) 
-				return (String) leftExpr.eval(env) + (String) rightExpr.eval(env);
+			if (leftExpr.eval(env) instanceof String) {
+				return (String) leftExpr.eval(env) + (String) rightExpr.eval(env);}
 			return (int) leftExpr.eval(env) + (int) rightExpr.eval(env);
 		case MINUS:
 			return (int) leftExpr.eval(env) - (int) rightExpr.eval(env);

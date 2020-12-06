@@ -228,6 +228,9 @@ public class Parser {
 			return ifStatement();
 		} else if (currTokenType == Token.TokenType.WHILE) {
 			return whileStatement();
+		} else if (currTokenType == Token.TokenType.BREAK) {
+			increment();
+			return new Break();
 		} else if (currTokenType == Token.TokenType.VARTYPE) {
 			return assignment();
 		} else if (currTokenType == Token.TokenType.CLASS) {
@@ -251,7 +254,6 @@ public class Parser {
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
 		Program body = statements(new LinkedList<>());
 		consume(Token.TokenType.RBRACKET, "Expecting token of type RBRACKET");
-
 		return new WhileStatement(condition, body);
 	}
 
@@ -325,7 +327,7 @@ public class Parser {
 			String objectName = (String) getCurrentToken().getLiteral();
 			increment();
 			consume(Token.TokenType.DOT, "Expecting token of type DOT");
-			Expression e = expression();
+			Expression e = literal();
 			if (e instanceof FunctionCall) {
 				return new MethodCall(objectName, (FunctionCall) e);
 			}
