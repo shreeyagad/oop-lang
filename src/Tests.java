@@ -146,7 +146,7 @@ public class Tests {
 	@Test
 	public void test14() throws Exception {
 		System.out.println("test14");
-		String source = "int n = 10; function printNum(int n) { while(n >= 0) { n = n - 1; }; }; n;";
+		String source = "int n = 10; function decrementNum(int n) { while(n >= 0) { n = n - 1; }; }; n;";
 		System.out.println(Interpreter.evaluate(source));
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 10);
@@ -176,4 +176,14 @@ public class Tests {
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 4);
 	}
+
+	@Test
+	public void test17() throws Exception {
+		System.out.println("test17");
+		String source = "int num = 5; while (num > 0) { num = num - 1; break; num = num - 1; }; num;";
+		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), 4);
+	}
+
+
 }
