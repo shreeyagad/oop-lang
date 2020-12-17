@@ -60,6 +60,7 @@ public class Tokenizer {
 		//Whitespace
 		case ' ':
 		case '\t': break;
+		case '\r': break;
 		case '\n': line++; break;
 		
 		//Punctuation

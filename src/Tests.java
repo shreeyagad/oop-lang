@@ -173,8 +173,8 @@ public class Tests {
 	@Test
 	public void test17() throws Exception {
 		System.out.println("test17");
-		String source = "class vector { " + "int num1; int num2;" + "function myClass(int n, int n2) {"
-				+ "num = n; num2 = n2; " + "}; " + "function sum() { return num1 + num2; }; " + "}; "
+		String source = "class vector { " + "int num1; int num2;" + "function vector(int n, int n2) {"
+				+ "num1 = n; num2 = n2; " + "}; " + "function sum() { return num1 + num2; }; " + "}; "
 				+ "vector v = new vector(2, 4); " + "v.sum();";
 		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 6);
