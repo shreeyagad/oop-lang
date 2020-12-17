@@ -15,7 +15,7 @@ public class Assignment extends Expression {
 		this.expr = expr;
 		this.reassignment = reassignment;
 	}
-	
+	// Person owner; d.owner.name
 	@Override
 	public Object eval(Environment env) {
 		Object value = expr.eval(env);

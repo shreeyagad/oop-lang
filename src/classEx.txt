@@ -1,0 +1,23 @@
+class Dog {
+    int age;
+    String name;
+    Person owner;
+    function Dog(int a, String n, Person p) {
+        age=a;
+        name=n;
+        owner=p;
+    };
+    function printName() {
+        print(this.name+this.name);
+    };
+};
+class Person {
+    String name;
+    function Person(String n) {
+        name=n;
+    };
+};
+Person p = new Person("Emily");
+Dog d = new Dog(10, "Tom", p);
+print(d.owner.name);
+

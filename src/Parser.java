@@ -205,6 +205,9 @@ public class Parser {
 		} else if (currTokenType == Token.TokenType.STRING) {
 			increment();
 			return new MyString((String) literal);
+		} else if (currTokenType == Token.TokenType.NULL) {
+			increment();
+			return new MyNull();
 		} else if (currTokenType == Token.TokenType.IDENTIFIER || currTokenType == Token.TokenType.SUPER) {
 			return identifier();
 		} else if (currTokenType == Token.TokenType.LPAREN) {
@@ -316,9 +319,25 @@ public class Parser {
 
 	// IDENTIFIER	
 	public Expression identifier() throws Exception {
-		if ((getNextToken().getType() == Token.TokenType.ASSIGN) || 
-				(peekToken(2).getType() == Token.TokenType.ASSIGN)) { 
+		if ((getNextToken().getType() == Token.TokenType.ASSIGN) || (peekToken(2).getType() == Token.TokenType.ASSIGN)) { 
 			return assignment();
+		} else if (getNextToken().getType() == Token.TokenType.DOT) {
+			List<String> identifiers = new LinkedList<>();
+			while (getNextToken().getType() == Token.TokenType.DOT) { 
+				String identifier = (String) consume(Token.TokenType.IDENTIFIER, "Expecting token of type identifier");
+				identifiers.add(identifier);
+				increment();
+			}
+			identifiers.add((String) getCurrentToken().getLiteral());
+			Attribute a = new Attribute(identifiers);
+			if (getNextToken().getType() == Token.TokenType.ASSIGN) {
+				return null; // TODO: object assignment 
+			}
+			else {
+				increment();
+				return a;
+
+			}
 		} else if (getCurrentTokenType() == Token.TokenType.SUPER) {
 			increment();
 			Expression e = call("super", false);
@@ -352,7 +371,7 @@ public class Parser {
 			return new Identifier(name);
 		}
 	}
-	
+
 	// FUNCTION DECLARATION
 	private Expression newFunction() throws Exception {
 		increment();
@@ -366,8 +385,10 @@ public class Parser {
 				if (getCurrentTokenType() == Token.TokenType.COMMA) {
 					increment();
 				}
-				String argType = (String) consume(Token.TokenType.VARTYPE, 
-						"Expecting token of type VARTYPE");
+				// String argType = (String) consume(Token.TokenType.VARTYPE, 
+				// 		"Expecting token of type VARTYPE");
+				String argType = (String) getCurrentToken().getLiteral();
+				increment();
 				String identifier = (String) consume(Token.TokenType.IDENTIFIER, 
 						"Expecting token of type IDENTIFIER");
 				args.add(new Variable(identifier, argType));
@@ -396,7 +417,9 @@ public class Parser {
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
 		List<Variable> attributes = new LinkedList<>();
 		while (getCurrentTokenType() != Token.TokenType.FUNCTION) {
-			String type = (String) consume(Token.TokenType.VARTYPE, "Expecting Token of type VARTYPE");
+			// String type = (String) consume(Token.TokenType.VARTYPE, "Expecting Token of type VARTYPE");
+			String type = (String) getCurrentToken().getLiteral();
+			increment();
 			String identifier = (String) consume(Token.TokenType.IDENTIFIER, 
 					"Expecting token of type IDENTIFIER");
 			attributes.add(new Variable(identifier, type));

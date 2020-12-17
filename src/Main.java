@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.nio.file.*;; 
+import java.nio.file.*;
 
 public class Main {
 

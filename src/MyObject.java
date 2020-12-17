@@ -9,6 +9,6 @@ public class MyObject {
 	}
 	
 	public String toString() {
-		return "Object of type " + className + ", with environment: " + env;
+		return "Object of type " + className;
 	}
 }

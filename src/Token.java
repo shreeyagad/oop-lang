@@ -39,7 +39,7 @@ public class Token {
 		SEMICOLON, COMMA,
 		
 		//Literals
-		NUMBER, BOOLEAN, STRING, 
+		NUMBER, BOOLEAN, STRING, NULL,
 			
 		// Variables
 		VARTYPE, IDENTIFIER,

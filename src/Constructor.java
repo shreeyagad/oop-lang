@@ -19,21 +19,20 @@ public class Constructor extends Expression {
 	@Override
 	public Object eval(Environment env) {
 		MyClass c = env.getClass(className);
-		Environment newEnv = env.copyEnv();
-		MyObject o = new MyObject(className, newEnv);
+		Environment newEnv = env.copyEnv(); // Object environment
+		MyObject o = new MyObject(className, newEnv); // Create object
 
 		if (c.superClassName != null) {
 			MyClass superClass = env.getClass(c.superClassName);
 			newEnv.combineEnv(superClass.environment);
-		};
+		}
 
 		newEnv.combineEnv(c.environment);
-		// Iterator<Expression> argExprsIt = argExprs.iterator();
-		// Iterator<String> attrIt = c.attrNames.iterator();
-		// Iterator<String> methodIt = c.methodNames.iterator();
 		
 		FunctionCall constructor = new FunctionCall(className, argExprs);
 		constructor.evalMethod(newEnv);
+
+		newEnv.addVariable("this", o);
 
 		return o;
 		

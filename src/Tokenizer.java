@@ -25,6 +25,7 @@ public class Tokenizer {
 		keywords.put("int", Token.TokenType.VARTYPE);
 		keywords.put("boolean", Token.TokenType.VARTYPE);
 		keywords.put("String", Token.TokenType.VARTYPE);
+		keywords.put("null", Token.TokenType.NULL);
 		keywords.put("!", Token.TokenType.NOT);
 		keywords.put("if", Token.TokenType.IF);
 		keywords.put("elif", Token.TokenType.ELIF);
