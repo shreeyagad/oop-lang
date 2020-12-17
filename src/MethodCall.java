@@ -6,7 +6,10 @@
 public class MethodCall extends Expression {
 	String objectName;
 	FunctionCall method;
-	
+
+	public MethodCall(FunctionCall method) {
+		this.method = method;
+	}
 	public MethodCall(String objectName, FunctionCall method) {
 		this.objectName = objectName;
 		this.method = method;
@@ -14,6 +17,9 @@ public class MethodCall extends Expression {
 	
 	@Override
 	public Object eval(Environment env) {
+		if (objectName == null) {
+			return method.evalMethod(env);
+		}
 		MyObject o = (MyObject) env.getValue(objectName);
 		return method.evalMethod(o.env);
 	}

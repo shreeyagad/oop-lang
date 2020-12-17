@@ -30,7 +30,7 @@ public class ClassDeclaration extends Expression {
 		
 		if (superClassName != null) {
 			MyClass superClass = env.getClass(superClassName);
-			newEnv = newEnv.combineEnv(superClass.environment);
+			newEnv.combineEnv(superClass.environment);
 			MyFunction superConstructor = (MyFunction) newEnv.getValue(superClassName);
 			newEnv.addVariable("super", superConstructor);
 		}
@@ -53,8 +53,9 @@ public class ClassDeclaration extends Expression {
 		}
 		
 		MyClass newClass = new MyClass(className, superClassName, attrNames, methodNames, newEnv);
-		env.addClass(className, newClass);
 		
+		System.out.println(newEnv);
+		env.addClass(className, newClass);
 		MyFunction constructor = (MyFunction) newEnv.getValue(className);
 		env.addVariable(className, constructor);
 		

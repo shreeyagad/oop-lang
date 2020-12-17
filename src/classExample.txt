@@ -1,21 +1,27 @@
 class Animal {
-int age;
-String name;
-function Animal(int a, String n) {
-age=a;
-name=n;};
-function setAge(int newAge) {
-	age=newAge;
+	int age;
+	String name;
+	function Animal(int a, String n) {
+		age=a;
+		print(n);
+		name=n;
+		print(name);
+	};
+	function setAge(int newAge) {
+		age=newAge;
+	};
+	function talk() {
+		return "I'm an animal";
+	};
 };
-function talk() {
-return "I'm an animal";};};
 class Dog extends Animal {
-String name;
-function Dog(String n) {
-super(10, "Tom");
-name=n;
-};};
-Animal a = new Animal(12, "Bob");
-Dog d = new Dog("Tom");
+	String name;
+	function Dog(String n) {
+		super(10, "Tom");
+		name=n;
+	};
+};
+Dog d = new Dog("Bob");
+print(d.name);
+print(d.age);
 print(d.talk());
-print(d.name);;

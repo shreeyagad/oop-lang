@@ -37,6 +37,7 @@ public class Tokenizer {
 		keywords.put("class", Token.TokenType.CLASS);
 		keywords.put("new", Token.TokenType.NEW);
 		keywords.put("extends", Token.TokenType.EXTENDS);
+		keywords.put("super", Token.TokenType.SUPER);
 	}
 
 	public List<Token> tokenize() {

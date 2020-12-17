@@ -207,6 +207,8 @@ public class Parser {
 			return new MyString((String) literal);
 		} else if (currTokenType == Token.TokenType.IDENTIFIER) {
 			return identifier();
+		} else if (currTokenType == Token.TokenType.SUPER) {
+			return identifier();
 		} else if (currTokenType == Token.TokenType.LPAREN) {
 			increment();
 			Expression e = expression();
@@ -323,6 +325,14 @@ public class Parser {
 			String funcName = (String) getCurrentToken().getLiteral();
 			increment();
 			return call(funcName, false);
+		} else if (getCurrentToken().getType() == Token.TokenType.SUPER) {
+			Expression e = literal();
+			if (e instanceof FunctionCall) {
+				return new MethodCall((FunctionCall) e);
+			}
+			else {
+				throw new Exception("Super must be used as a function call");
+			}
 		} else if (getNextToken().getType() == Token.TokenType.DOT) {
 			String objectName = (String) getCurrentToken().getLiteral();
 			increment();
