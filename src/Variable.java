@@ -6,6 +6,7 @@
 public class Variable extends Expression {
 	String name;
 	String type;
+	
 
 	public Variable(String name, String type) {
 		this.name = name;

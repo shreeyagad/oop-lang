@@ -349,7 +349,6 @@ public class Parser {
 		increment();
 		String funcName = (String) getCurrentToken().getLiteral();
 		increment();
-		
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		
 		List<Variable> args = new LinkedList<>();
@@ -379,6 +378,12 @@ public class Parser {
 		increment();
 		String className = (String) getCurrentToken().getLiteral();
 		increment();
+		String superClassName = null;
+		if (getCurrentTokenType() == Token.TokenType.EXTENDS) {
+			increment();
+			superClassName = (String) getCurrentToken().getLiteral();
+			increment();	
+		}
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
 		List<Variable> attributes = new LinkedList<>();
 		while (getCurrentTokenType() != Token.TokenType.FUNCTION) {
@@ -397,14 +402,14 @@ public class Parser {
 			FunctionDeclaration f = (FunctionDeclaration) newFunction();
 
 			methods.add(f);
-			consume(Token.TokenType.SEMICOLON, "Expecting Semicolon after attribute declaration");
+			consume(Token.TokenType.SEMICOLON, "Expecting Semicolon after method declaration");
 
 		}
 		
 		consume(Token.TokenType.RBRACKET, "Expecting Token of type RBRACKET");
 
 		
-		return new ClassDeclaration(className, attributes, methods);
+		return new ClassDeclaration(className, superClassName, attributes, methods);
 	} 	
 	
 	public Expression newObject() throws Exception {

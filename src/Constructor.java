@@ -20,11 +20,21 @@ public class Constructor extends Expression {
 	public Object eval(Environment env) {
 		MyClass c = env.getClass(className);
 		Environment newEnv = env.copyEnv();
+		
+		if (c.superClassName != null) {
+			MyClass superClass = env.getClass(c.superClassName);
+			newEnv = newEnv.combineEnv(superClass.environment);
+			// MyFunction superConstructor = (MyFunction) superClass.environment.getValue(c.superClassName);
+			// superConstructor.eval(newEnv);
+		}
 
 		Iterator<Expression> argExprsIt = argExprs.iterator();
 		Iterator<String> attrIt = c.attrNames.iterator();
 		Iterator<String> methodIt = c.methodNames.iterator();
 
+		MyFunction constructor = (MyFunction) c.environment.getValue(className);
+		constructor.eval(newEnv);
+		
 		if (c.attrNames.size() == argExprs.size()) {
 			while (attrIt.hasNext() && argExprsIt.hasNext()) {
 				Object argValue = argExprsIt.next().eval(env);

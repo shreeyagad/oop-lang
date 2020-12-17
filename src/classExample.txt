@@ -1,0 +1,20 @@
+class Animal {
+int age;
+String name;
+function Animal(int age, String name) {
+age=age;
+name=name;};
+function setAge(int newAge) {
+	age=newAge;
+};
+function talk() {
+return "I'm an animal";};};
+class Dog extends Animal {
+String name;
+function Dog(String name) {
+super(10, "Tom");
+name=name;
+};};
+Dog d = new Dog("Emily");
+print(d.name);
+print(d.age);

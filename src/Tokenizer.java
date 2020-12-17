@@ -36,6 +36,7 @@ public class Tokenizer {
 		keywords.put("return", Token.TokenType.RETURN);
 		keywords.put("class", Token.TokenType.CLASS);
 		keywords.put("new", Token.TokenType.NEW);
+		keywords.put("extends", Token.TokenType.EXTENDS);
 	}
 
 	public List<Token> tokenize() {

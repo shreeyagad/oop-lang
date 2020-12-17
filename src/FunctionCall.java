@@ -27,6 +27,7 @@ public class FunctionCall extends Expression {
 
 	private Object evalCall(Environment env, Environment newEnv) {
 		MyFunction f = (MyFunction) env.getValue(funcName);
+		
 		if (f.args.size() == argExprs.size()) {
 			Iterator<Variable> argsIt = f.args.iterator();
 			Iterator<Expression> argExprsIt = argExprs.iterator();

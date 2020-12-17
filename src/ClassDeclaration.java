@@ -10,19 +10,30 @@ import java.util.List;
  */
 public class ClassDeclaration extends Expression {
 	String className;
+	String superClassName;
 	List<FunctionDeclaration> methods;
 	List<Variable> attributes;
 	
-	public ClassDeclaration(String className, List<Variable> attributes, List<FunctionDeclaration> methods) {
+	public ClassDeclaration(String className, String superClassName, 
+			List<Variable> attributes, List<FunctionDeclaration> methods) {
 		this.className = className;
+		this.superClassName = superClassName;
 		this.attributes = attributes;
 		this.methods = methods;
 	}
+
 	
 	@Override
 	public Object eval(Environment env) {
 		
 		Environment newEnv = env.copyEnv();
+		
+		if (superClassName != null) {
+			MyClass superClass = env.getClass(superClassName);
+			newEnv = newEnv.combineEnv(superClass.environment);
+			MyFunction superConstructor = (MyFunction) newEnv.getValue(superClassName);
+			newEnv.addVariable("super", superConstructor);
+		}
 		
 		Iterator<Variable> attributeIt = attributes.iterator();
 		Iterator<FunctionDeclaration> methodIt = methods.iterator();
@@ -41,7 +52,8 @@ public class ClassDeclaration extends Expression {
 			method.eval(newEnv);
 		}
 		
-		MyClass newClass = new MyClass(className, attrNames, methodNames, newEnv);
+
+		MyClass newClass = new MyClass(className, superClassName, attrNames, methodNames, newEnv);
 		env.addClass(className, newClass);
 		
 		return null;

@@ -172,9 +172,10 @@ public class Tests {
 				+ "}; "
 				+ "myClass c = new myClass(2, true); "
 				+ "myClass c2 = new myClass(3, false); "
-				+ "c.addAttr();";
+				+ "c.num = 5;"
+				+ "c.num;";
 		System.out.println(source + " evaluates to "  + Interpreter.evaluate(source));
-		assertEquals(Interpreter.evaluate(source), 4);
+		assertEquals(Interpreter.evaluate(source), 5);
 	}
 
 	@Test

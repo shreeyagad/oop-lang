@@ -44,6 +44,13 @@ public class Environment {
 		return newEnv;
 	}
 	
+	public Environment combineEnv(Environment env2) {
+		Environment newEnv = this.copyEnv();
+		newEnv.mappings.putAll(env2.mappings);
+		newEnv.classes.putAll(env2.classes);
+		return newEnv;
+	}
+	
 	public String toString() {
 		return "mappings: " + mappings + ";\nclasses: " + classes;
 	}

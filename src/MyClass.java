@@ -10,12 +10,15 @@ import java.util.List;
 public class MyClass {
 	
 	String className;
+	String superClassName;
 	Environment environment;
 	List<String> attrNames;
 	List<String> methodNames;
 
-	public MyClass(String className, List<String> attrNames, List<String> methodNames, Environment environment) {
+	public MyClass(String className, String superClassName, List<String> attrNames, 
+			List<String> methodNames, Environment environment) {
 		this.className = className;
+		this.superClassName = superClassName;
 		this.attrNames = attrNames;
 		this.methodNames = methodNames;
 		this.environment = environment;
