@@ -52,9 +52,11 @@ public class ClassDeclaration extends Expression {
 			method.eval(newEnv);
 		}
 		
-
 		MyClass newClass = new MyClass(className, superClassName, attrNames, methodNames, newEnv);
 		env.addClass(className, newClass);
+		
+		MyFunction constructor = (MyFunction) newEnv.getValue(className);
+		env.addVariable(className, constructor);
 		
 		return null;
 	}

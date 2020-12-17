@@ -20,6 +20,7 @@ public class Constructor extends Expression {
 	public Object eval(Environment env) {
 		MyClass c = env.getClass(className);
 		Environment newEnv = env.copyEnv();
+		newEnv = newEnv.combineEnv(c.environment);
 		
 		if (c.superClassName != null) {
 			MyClass superClass = env.getClass(c.superClassName);
@@ -28,31 +29,34 @@ public class Constructor extends Expression {
 			// superConstructor.eval(newEnv);
 		}
 
-		Iterator<Expression> argExprsIt = argExprs.iterator();
-		Iterator<String> attrIt = c.attrNames.iterator();
+		// Iterator<Expression> argExprsIt = argExprs.iterator();
+		// Iterator<String> attrIt = c.attrNames.iterator();
 		Iterator<String> methodIt = c.methodNames.iterator();
-
-		MyFunction constructor = (MyFunction) c.environment.getValue(className);
-		constructor.eval(newEnv);
 		
-		if (c.attrNames.size() == argExprs.size()) {
-			while (attrIt.hasNext() && argExprsIt.hasNext()) {
-				Object argValue = argExprsIt.next().eval(env);
-				String attrName = attrIt.next();
-				newEnv.addVariable(attrName, argValue);
-			}
+		MyObject o = new MyObject(className, newEnv);
+		FunctionCall constructor = new FunctionCall(className, argExprs);
+		constructor.evalMethod(newEnv);
 
-			while (methodIt.hasNext()) {
-				String methodName = methodIt.next();
-				MyFunction f = (MyFunction) c.environment.getValue(methodName);
-				newEnv.addVariable(methodName, f);
-			}
+		return o;
+		
+		// if (c.attrNames.size() == argExprs.size()) {
+		// 	while (attrIt.hasNext() && argExprsIt.hasNext()) {
+		// 		Object argValue = argExprsIt.next().eval(env);
+		// 		String attrName = attrIt.next();
+		// 		newEnv.addVariable(attrName, argValue);
+		// 	}
+
+		// 	while (methodIt.hasNext()) {
+		// 		String methodName = methodIt.next();
+		// 		MyFunction f = (MyFunction) c.environment.getValue(methodName);
+		// 		newEnv.addVariable(methodName, f);
+		// 	}
 			
-			return new MyObject(className, newEnv);
-		}
-		else {
-			return null;
-		}
+		// 	return new MyObject(className, newEnv);
+		// }
+		// else {
+		// 	return null;
+		// }
 		
 	}
 	
