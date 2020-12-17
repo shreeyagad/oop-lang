@@ -15,4 +15,4 @@ To run the interactive interpreter, use this:
 $ cd out
 $ java Main
 
-This interpreter interprets String, Integer, and Boolean expression similar in syntax to Java. Unary Operators and Parentheses have not yet been implemented. To exit the interpreter, type 'end' and hit enter
+This interpreter has all the functionality specified in our documentation included in the writeup. To run a program, type it into the interpreter and at the end of the program add an extra semicolon (It will look like two semicolons at the end due to the semicolon from the very last statement) and hit Enter. The interpreter will print out the value returned by the very last statement. To exit the interpreter, type 'end;;' and hit enter. Any series of programs you run before the 'end;;' command will be interpreted under the same environment.
