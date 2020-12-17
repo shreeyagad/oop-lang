@@ -53,8 +53,6 @@ public class ClassDeclaration extends Expression {
 		}
 		
 		MyClass newClass = new MyClass(className, superClassName, attrNames, methodNames, newEnv);
-		
-		System.out.println(newEnv);
 		env.addClass(className, newClass);
 		MyFunction constructor = (MyFunction) newEnv.getValue(className);
 		env.addVariable(className, constructor);

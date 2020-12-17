@@ -205,9 +205,7 @@ public class Parser {
 		} else if (currTokenType == Token.TokenType.STRING) {
 			increment();
 			return new MyString((String) literal);
-		} else if (currTokenType == Token.TokenType.IDENTIFIER) {
-			return identifier();
-		} else if (currTokenType == Token.TokenType.SUPER) {
+		} else if (currTokenType == Token.TokenType.IDENTIFIER || currTokenType == Token.TokenType.SUPER) {
 			return identifier();
 		} else if (currTokenType == Token.TokenType.LPAREN) {
 			increment();
@@ -299,7 +297,7 @@ public class Parser {
 	}
 
 	// FUNCTION CALL
-	public Expression call(String funcName, Boolean isConstructor) throws Exception {
+	public Expression call(String funcName, boolean isConstructor) throws Exception {
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
 		List<Expression> args = new LinkedList<>();
 		if (getCurrentTokenType() != Token.TokenType.RPAREN) {
@@ -321,18 +319,19 @@ public class Parser {
 		if ((getNextToken().getType() == Token.TokenType.ASSIGN) || 
 				(peekToken(2).getType() == Token.TokenType.ASSIGN)) { 
 			return assignment();
-		} else if (getNextToken().getType() == Token.TokenType.LPAREN) {
-			String funcName = (String) getCurrentToken().getLiteral();
+		} else if (getCurrentTokenType() == Token.TokenType.SUPER) {
 			increment();
-			return call(funcName, false);
-		} else if (getCurrentToken().getType() == Token.TokenType.SUPER) {
-			Expression e = literal();
+			Expression e = call("super", false);
 			if (e instanceof FunctionCall) {
 				return new MethodCall((FunctionCall) e);
 			}
 			else {
 				throw new Exception("Super must be used as a function call");
 			}
+		} else if (getNextToken().getType() == Token.TokenType.LPAREN) {
+			String funcName = (String) getCurrentToken().getLiteral();
+			increment();
+			return call(funcName, false);
 		} else if (getNextToken().getType() == Token.TokenType.DOT) {
 			String objectName = (String) getCurrentToken().getLiteral();
 			increment();

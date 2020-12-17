@@ -3,9 +3,7 @@ class Animal {
 	String name;
 	function Animal(int a, String n) {
 		age=a;
-		print(n);
 		name=n;
-		print(name);
 	};
 	function setAge(int newAge) {
 		age=newAge;

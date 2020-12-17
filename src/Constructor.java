@@ -34,6 +34,7 @@ public class Constructor extends Expression {
 		
 		FunctionCall constructor = new FunctionCall(className, argExprs);
 		constructor.evalMethod(newEnv);
+
 		return o;
 		
 		// if (c.attrNames.size() == argExprs.size()) {
