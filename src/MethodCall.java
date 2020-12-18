@@ -4,27 +4,28 @@
  * @param method The function call of the method
  */
 public class MethodCall extends Expression {
-	String objectName;
+	Attribute object;
 	FunctionCall method;
 
 	public MethodCall(FunctionCall method) {
 		this.method = method;
 	}
-	public MethodCall(String objectName, FunctionCall method) {
-		this.objectName = objectName;
+	public MethodCall(Attribute objectName, FunctionCall method) {
+		this.object = objectName;
 		this.method = method;
 	}
 	
 	@Override
 	public Object eval(Environment env) {
-		if (objectName == null) {
+		if (object == null) {
 			return method.evalMethod(env);
 		}
-		MyObject o = (MyObject) env.getValue(objectName);
+		MyObject o = (MyObject) object.eval(env);
+//		MyObject o = (MyObject) env.getValue(object);
 		return method.evalMethod(o.env);
 	}
 	
 	public String toString() {
-		return objectName + "." + method.funcName + "(" + method.argExprs + ")";
+		return object.toString() + "." + method.funcName + "(" + method.argExprs + ")";
 	}
 }

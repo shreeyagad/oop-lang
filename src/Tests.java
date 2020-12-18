@@ -203,4 +203,61 @@ public class Tests {
 		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), true);
 	}
+	
+	@Test
+	public void test21() throws Exception {
+		System.out.println("test21");
+		String source = "class Node {\n"
+				+ "	    Node next;\n"
+				+ "	    int val;\n"
+				+ "	    function Node(int v, Node n) {\n"
+				+ "	        val=v;\n"
+				+ "	        next=n;\n"
+				+ "	    };\n"
+				+ "	};\n"
+				+ "	Node n1 = new Node(1, null);\n"
+				+ "	Node n2 = new Node(3, n1);\n"
+				+ "	Node n3 = new Node(4, n2);\n"
+				+ "	print(n1.next);\n"
+				+ "	print(n2.next.val);\n"
+				+ "	print(n3.next.val); n3.next.val;";
+		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), 3);
+	}
+	
+	
+	@Test
+	public void test22() throws Exception {
+		System.out.println("test22");
+		String source = "class Dog {\n"
+				+ "	    int age;\n"
+				+ "	    String name;\n"
+				+ "	    Person owner;\n"
+				+ "	    function Dog(int a, String n, Person p) {\n"
+				+ "	        age=a;\n"
+				+ "	        name=n;\n"
+				+ "	        owner=p;\n"
+				+ "	    };\n"
+				+ "	    function printName() {\n"
+				+ "	        print(this.name+this.name);\n"
+				+ "	    };\n"
+				+ "	};\n"
+				+ "	class Person {\n"
+				+ "	    String name;\n"
+				+ "	    function Person(String n) {\n"
+				+ "	        name=n;\n"
+				+ "	    };\n"
+				+ "	};\n"
+				+ "	Person p = new Person(\"Emily\");\n"
+				+ "	Dog d = new Dog(10, \"Tom\", p);\n"
+				+ "	d.owner.name;";
+		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), "Emily");
+	}
+	
+	
+
+	
+	
+	
 }

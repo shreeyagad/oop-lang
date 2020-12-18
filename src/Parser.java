@@ -328,16 +328,29 @@ public class Parser {
 				identifiers.add(identifier);
 				increment();
 			}
-			identifiers.add((String) getCurrentToken().getLiteral());
-			Attribute a = new Attribute(identifiers);
-			if (getNextToken().getType() == Token.TokenType.ASSIGN) {
-				return null; // TODO: object assignment 
+			
+			Expression e = literal();
+			System.out.println("e");
+			System.out.println(e);
+			if (e instanceof FunctionCall) {
+				return new MethodCall(new Attribute(identifiers), (FunctionCall) e);
+			}
+			else if (e instanceof Identifier){
+				if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
+//					increment();
+					increment();
+					Expression rightExpression = expression();
+					return new ObjectAssignment(new Attribute(identifiers), 
+							(Identifier) e, rightExpression);
+				} else {
+					identifiers.add((String) ((Identifier) e).name);
+					return new Attribute(identifiers);
+				}
 			}
 			else {
-				increment();
-				return a;
-
+				throw new Exception("Can only access attributes and methods of object");
 			}
+				
 		} else if (getCurrentTokenType() == Token.TokenType.SUPER) {
 			increment();
 			Expression e = call("super", false);
@@ -351,21 +364,23 @@ public class Parser {
 			String funcName = (String) getCurrentToken().getLiteral();
 			increment();
 			return call(funcName, false);
-		} else if (getNextToken().getType() == Token.TokenType.DOT) {
-			String objectName = (String) getCurrentToken().getLiteral();
-			increment();
-			consume(Token.TokenType.DOT, "Expecting token of type DOT");
-			Expression e = literal();
-			if (e instanceof FunctionCall) {
-				return new MethodCall(objectName, (FunctionCall) e);
-			}
-			else if (e instanceof Identifier){
-				return new AttributeCall(objectName, ((Identifier) e).getName());
-			}
-			else {
-				throw new Exception("Can only access attributes and methods of object " + objectName);
-			}
-		} else {
+		} 
+//		else if (getNextToken().getType() == Token.TokenType.DOT) {
+//			String objectName = (String) getCurrentToken().getLiteral();
+//			increment();
+//			consume(Token.TokenType.DOT, "Expecting token of type DOT");
+//			Expression e = literal();
+//			if (e instanceof FunctionCall) {
+//				return new MethodCall(objectName, (FunctionCall) e);
+//			}
+//			else if (e instanceof Identifier){
+//				return new AttributeCall(objectName, ((Identifier) e).getName());
+//			}
+//			else {
+//				throw new Exception("Can only access attributes and methods of object " + objectName);
+//			}
+//		} 
+		else {
 			String name = (String) getCurrentToken().getLiteral();
 			increment();
 			return new Identifier(name);

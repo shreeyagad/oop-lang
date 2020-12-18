@@ -19,5 +19,6 @@ class Person {
 };
 Person p = new Person("Emily");
 Dog d = new Dog(10, "Tom", p);
-print(d.owner.name);
+print(d.age);
+d.age = 11;
 

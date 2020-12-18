@@ -21,4 +21,8 @@ public class Attribute extends Expression {
         }
         return nextObj;
     }
+    
+    public String toString() {
+    	return identifiers.toString();
+    }
 }
