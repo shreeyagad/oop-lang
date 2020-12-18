@@ -74,9 +74,6 @@ public class Parser {
 		return assignment();
 	}
 	
-	//int num = 3;
-	
-	
 	// ASSIGN 
 	private Expression assignment() throws Exception {
 		Expression leftExpression = disjunction();
@@ -84,10 +81,10 @@ public class Parser {
 			increment();
 			if (leftExpression instanceof Variable) {
 				Expression e = expression();
-				return new Assignment((Variable) leftExpression, e, true);
+				return new Assignment((Variable) leftExpression, e, false);
 			} else if (leftExpression instanceof Identifier) {
 				Expression e = expression();
-				return new Assignment(new Variable(((Identifier) leftExpression).name), e, false);
+				return new Assignment(new Variable(((Identifier) leftExpression).name), e, true);
 			} else if (leftExpression instanceof Attribute) {
 				Expression e = expression();
 				Identifier attribute = new Identifier(((Attribute) leftExpression).identifiers.pollLast());
@@ -236,7 +233,7 @@ public class Parser {
 		} else if (currTokenType == Token.TokenType.NULL) {
 			increment();
 			return new MyNull();
-		} else if (currTokenType == Token.TokenType.IDENTIFIER || currTokenType == Token.TokenType.SUPER) {
+		} else if (currTokenType == Token.TokenType.IDENTIFIER) {
 			return identifier();
 		} else if (currTokenType == Token.TokenType.LPAREN) {
 			increment();
@@ -278,8 +275,6 @@ public class Parser {
 		}
 	}
 
-	
-
 	// WHILE
 	private Expression whileStatement() throws Exception {
 		increment();
@@ -311,8 +306,6 @@ public class Parser {
 		return new IfElseStatement(condition, tBody, fBody);
 	}
 
-
-
 	// FUNCTION CALL
 	public Expression call(String funcName, boolean isConstructor) throws Exception {
 		consume(Token.TokenType.LPAREN, "Expecting token of type LPAREN");
@@ -342,8 +335,6 @@ public class Parser {
 			}
 			
 			Expression e = literal();
-			System.out.println("e");
-			System.out.println(e);
 			if (e instanceof FunctionCall) {
 				return new MethodCall(new Attribute(identifiers), (FunctionCall) e);
 			}
@@ -361,17 +352,22 @@ public class Parser {
 			}
 			else {
 				throw new Exception("Can only access attributes and methods of object");
-			}
-				
-		} else if (getCurrentTokenType() == Token.TokenType.SUPER) {
+			}	
+		} else if (getNextToken().getType() == Token.TokenType.IDENTIFIER) {
+			String type = (String) getCurrentToken().getLiteral();
 			increment();
-			Expression e = call("super", false);
-			if (e instanceof FunctionCall) {
-				return new MethodCall((FunctionCall) e);
-			}
-			else {
-				throw new Exception("Super must be used as a function call");
-			}
+			String name = (String) getCurrentToken().getLiteral();
+			increment();
+			return new Variable(name, type);
+		// else if (getCurrentTokenType() == Token.TokenType.SUPER) {
+		// 	increment();
+		// 	Expression e = call("super", false);
+		// 	if (e instanceof FunctionCall) {
+		// 		return new MethodCall((FunctionCall) e);
+		// 	}
+		// 	else {
+		// 		throw new Exception("Super must be used as a function call");
+		// 	}
 		} else if (getNextToken().getType() == Token.TokenType.LPAREN) {
 			String funcName = (String) getCurrentToken().getLiteral();
 			increment();

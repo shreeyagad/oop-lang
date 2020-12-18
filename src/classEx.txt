@@ -1,25 +1,24 @@
-class Dog {
-    int age;
+class Animal {
     String name;
-    Person owner;
-    function Dog(int a, String n, Person p) {
-        age=a;
-        name=n;
-        owner=p;
+    int age;
+    function Animal(int age, String name) {
+        print(name);
+        this.age=age;
+        this.name=name;
     };
     function printName() {
-        print(this.name+this.name);
+        print(this.name);
     };
 };
-class Person {
+class Dog extends Animal {
     String name;
-    function Person(String n) {
-        name=n;
+    function Dog(int age, String name) {
+        print(name);
+        this.super(age, name);
+    };
+    function getName() {
+        return name;
     };
 };
-Person p = new Person("Emily");
-Dog d = new Dog(10, "Tom", p);
+Dog d = new Dog(10, "Tom");
 print(d.age);
-d.age = 11;
-d.age = 10;
-

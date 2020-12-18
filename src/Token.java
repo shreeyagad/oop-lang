@@ -63,7 +63,7 @@ public class Token {
 		WHILE, BREAK,
 		
 		//Class
-		CLASS, DOT, NEW, EXTENDS, SUPER,
+		CLASS, DOT, NEW, EXTENDS,
 		
 		//EOF
 		EOF

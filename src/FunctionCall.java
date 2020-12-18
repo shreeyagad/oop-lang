@@ -16,16 +16,18 @@ public class FunctionCall extends Expression {
 		this.argExprs = argExprs;
 	}
 
+	// @Override
+	// public Object eval(Environment env) {
+	// 	return evalCall(env, env.copyEnv());
+	// }
+
+	// public Object evalMethod(Environment env) {
+	// 	return evalCall(env, env);
+	// }
+
 	@Override
 	public Object eval(Environment env) {
-		return evalCall(env, env.copyEnv());
-	}
-
-	public Object evalMethod(Environment env) {
-		return evalCall(env, env);
-	}
-
-	private Object evalCall(Environment env, Environment newEnv) {
+		Environment newEnv = env.copyEnv();
 		MyFunction f = (MyFunction) env.getValue(funcName);
 		
 		if (f.args.size() == argExprs.size()) {

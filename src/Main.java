@@ -39,7 +39,15 @@ public class Main {
 			sc.close();
 		}
 		in.close();
+		
+//		String source = "class myClass { " + "int num; boolean bool; " + "function myClass(int n, boolean b) {"
+//		+ "num = n; bool = b; " + "}; " + "function addAttr() { return num + num; }; " + "}; "
+//		+ "myClass c = new myClass(2, true); " + "myClass c2 = new myClass(3, false); " + "c.addAttr();";
+//		Tokenizer t = new Tokenizer(source);
+//		Parser p = new Parser(t);
+//		System.out.println(p.parseTokens());
+//		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
+		
 	}
 
 }
-

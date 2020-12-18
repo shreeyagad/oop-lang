@@ -164,7 +164,7 @@ public class Tests {
 	public void test16() throws Exception {
 		System.out.println("test16");
 		String source = "class myClass { " + "int num; boolean bool; " + "function myClass(int n, boolean b) {"
-				+ "num = n; bool = b; " + "}; " + "function addAttr() { return num + num; }; " + "}; "
+				+ "this.num = n; this.bool = b; " + "}; " + "function addAttr() { return num + num; }; " + "}; "
 				+ "myClass c = new myClass(2, true); " + "myClass c2 = new myClass(3, false); " + "c.addAttr();";
 		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 4);
@@ -174,7 +174,7 @@ public class Tests {
 	public void test17() throws Exception {
 		System.out.println("test17");
 		String source = "class vector { " + "int num1; int num2;" + "function vector(int n, int n2) {"
-				+ "num1 = n; num2 = n2; " + "}; " + "function sum() { return num1 + num2; }; " + "}; "
+				+ "this.num1 = n; this.num2 = n2; " + "}; " + "function sum() { return num1 + num2; }; " + "}; "
 				+ "vector v = new vector(2, 4); " + "v.sum();";
 		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), 6);
@@ -211,8 +211,8 @@ public class Tests {
 				+ "	    Node next;\n"
 				+ "	    int val;\n"
 				+ "	    function Node(int v, Node n) {\n"
-				+ "	        val=v;\n"
-				+ "	        next=n;\n"
+				+ "	        this.val=v;\n"
+				+ "	        this.next=n;\n"
 				+ "	    };\n"
 				+ "	};\n"
 				+ "	Node n1 = new Node(1, null);\n"
@@ -234,9 +234,9 @@ public class Tests {
 				+ "	    String name;\n"
 				+ "	    Person owner;\n"
 				+ "	    function Dog(int a, String n, Person p) {\n"
-				+ "	        age=a;\n"
-				+ "	        name=n;\n"
-				+ "	        owner=p;\n"
+				+ "	        this.age=a;\n"
+				+ "	        this.name=n;\n"
+				+ "	        this.owner=p;\n"
 				+ "	    };\n"
 				+ "	    function printName() {\n"
 				+ "	        print(this.name+this.name);\n"
@@ -245,16 +245,19 @@ public class Tests {
 				+ "	class Person {\n"
 				+ "	    String name;\n"
 				+ "	    function Person(String n) {\n"
-				+ "	        name=n;\n"
+				+ "	        this.name=n;\n"
 				+ "	    };\n"
 				+ "	};\n"
 				+ "	Person p = new Person(\"Emily\");\n"
 				+ "	Dog d = new Dog(10, \"Tom\", p);\n"
-				+ "	d.owner.name;";
+				+ "	\"The dog \" + d.name + \" has owner \" + d.owner.name + \".\";";
 		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
-		assertEquals(Interpreter.evaluate(source), "Emily");
+		assertEquals(Interpreter.evaluate(source), "The dog Tom has owner Emily.");
 	}
 	
+	public void test23() throws Exception {
+		System.out.println("test23");
+		
 	
 
 	

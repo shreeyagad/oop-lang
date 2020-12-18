@@ -29,8 +29,6 @@ public class ClassDeclaration extends Expression {
 		Environment newEnv = env.copyEnv();
 		
 		if (superClassName != null) {
-			// MyClass superClass = env.getClass(superClassName);
-			// newEnv.combineEnv(superClass.environment);
 			MyFunction superConstructor = (MyFunction) newEnv.getValue(superClassName);
 			newEnv.addVariable("super", superConstructor);
 		}

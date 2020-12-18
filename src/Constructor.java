@@ -19,8 +19,8 @@ public class Constructor extends Expression {
 	@Override
 	public Object eval(Environment env) {
 		MyClass c = env.getClass(className);
-		Environment newEnv = env.copyEnv(); // Object environment
-		MyObject o = new MyObject(className, newEnv); // Create object
+		Environment newEnv = env.copyEnv();
+		MyObject o = new MyObject(className, newEnv);
 
 		if (c.superClassName != null) {
 			MyClass superClass = env.getClass(c.superClassName);
@@ -28,33 +28,13 @@ public class Constructor extends Expression {
 		}
 
 		newEnv.combineEnv(c.environment);
-		
-		FunctionCall constructor = new FunctionCall(className, argExprs);
-		constructor.evalMethod(newEnv);
-
 		newEnv.addVariable("this", o);
 
-		return o;
-		
-		// if (c.attrNames.size() == argExprs.size()) {
-		// 	while (attrIt.hasNext() && argExprsIt.hasNext()) {
-		// 		Object argValue = argExprsIt.next().eval(env);
-		// 		String attrName = attrIt.next();
-		// 		newEnv.addVariable(attrName, argValue);
-		// 	}
+		FunctionCall constructor = new FunctionCall(className, argExprs);
+		System.out.println(argExprs);
+		constructor.eval(newEnv);
 
-		// 	while (methodIt.hasNext()) {
-		// 		String methodName = methodIt.next();
-		// 		MyFunction f = (MyFunction) c.environment.getValue(methodName);
-		// 		newEnv.addVariable(methodName, f);
-		// 	}
-			
-		// 	return new MyObject(className, newEnv);
-		// }
-		// else {
-		// 	return null;
-		// }
-		
+		return o;
 	}
 	
 	public String toString() {

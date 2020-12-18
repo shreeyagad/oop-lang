@@ -15,21 +15,65 @@ public class Assignment extends Expression {
 		this.expr = expr;
 		this.reassignment = reassignment;
 	}
-	// Person owner; d.owner.name
+
 	@Override
 	public Object eval(Environment env) {
 		Object value = expr.eval(env);
-		if (!reassignment) {
-			env.addVariable(var.getName(), value);
-		}
-		else {
-			try {
+		try {
+			if (reassignment) {
+				Object prevValue = env.getValue(var.getName());
+				if (prevValue instanceof MyObject) {
+					String prevClassName = ((MyObject) prevValue).className;
+					if (value instanceof MyObject) {
+						String className = ((MyObject) value).className;
+						if (!(prevClassName.equals(className))) {
+							throw new Exception("Type of object variables does not match value");
+						}
+					}
+					else {
+						throw new Exception("Type of object variables does not match value");
+					}
+				}
+				else if (!(prevValue.getClass().equals(value.getClass()))) {
+					throw new Exception("Type of variable does not match value");
+				}
 				env.changeVariable(var.getName(), value);
 			}
-			catch (Exception e) {
-				e.printStackTrace();
+			else {
+				switch (var.getType()) {
+					case "int":
+						if (!(value instanceof Integer)) {
+							throw new Exception("Can only assign integer values to int variables");
+						}
+						break;
+					case "boolean":
+						if (!(value instanceof Boolean)) {
+							throw new Exception("Can only assign boolean values to boolean variables");
+						}
+						break;
+					case "String":
+						if (!(value instanceof String)) {
+							throw new Exception("Can only assign String values to String variables");
+						}
+						break;
+					default:
+						if (value instanceof MyObject) {
+							String className = ((MyObject) value).className;
+							if (!(var.getType().equals(className))) {
+								throw new Exception("Type of object variables does not match value");
+							}
+						}
+						else {
+							throw new Exception("Type of object variables does not match value");
+						}
+				}
+				env.addVariable(var.getName(), value);
 			}
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 	
