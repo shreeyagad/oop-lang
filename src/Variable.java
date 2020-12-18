@@ -13,6 +13,11 @@ public class Variable extends Expression {
 		this.type = type;
 	}
 	
+	public Variable(String name) {
+		this.name = name;
+		this.type = null;
+	}
+	
 	@Override
 	public Object eval(Environment env) {
 		return env.getValue(name);

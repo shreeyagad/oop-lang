@@ -1,11 +1,12 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Attribute extends Expression {
-    List<String> identifiers;
+    LinkedList<String> identifiers;
 
 
-    public Attribute(List<String> identifiers) {
+    public Attribute(LinkedList<String> identifiers) {
         this.identifiers = identifiers;
     }
 

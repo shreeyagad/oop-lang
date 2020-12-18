@@ -71,7 +71,35 @@ public class Parser {
 	}
 
 	private Expression expression() throws Exception {
-		return disjunction();
+		return assignment();
+	}
+	
+	//int num = 3;
+	
+	
+	// ASSIGN 
+	private Expression assignment() throws Exception {
+		Expression leftExpression = disjunction();
+		if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
+			increment();
+			if (leftExpression instanceof Variable) {
+				Expression e = expression();
+				return new Assignment((Variable) leftExpression, e, true);
+			} else if (leftExpression instanceof Identifier) {
+				Expression e = expression();
+				return new Assignment(new Variable(((Identifier) leftExpression).name), e, false);
+			} else if (leftExpression instanceof Attribute) {
+				Expression e = expression();
+				Identifier attribute = new Identifier(((Attribute) leftExpression).identifiers.pollLast());
+				return new ObjectAssignment((Attribute) leftExpression, 
+						attribute, e);
+			} else {
+				throw new Exception("Can only assign to Variables");
+			}
+		} else {
+			return leftExpression;
+		}
+		
 	}
 
 	// OR
@@ -235,7 +263,11 @@ public class Parser {
 			increment();
 			return new Break();
 		} else if (currTokenType == Token.TokenType.VARTYPE) {
-			return assignment();
+			String type = (String) consume(Token.TokenType.VARTYPE, "Must be Vartype");
+			String identifier = (String) consume(Token.TokenType.IDENTIFIER, 
+					"Vartype Must be followed by an IDENTIFIER");
+			return new Variable(identifier, type);
+			
 		} else if (currTokenType == Token.TokenType.CLASS) {
 			return classDeclaration();
 		} else if (currTokenType == Token.TokenType.NEW) {
@@ -279,25 +311,7 @@ public class Parser {
 		return new IfElseStatement(condition, tBody, fBody);
 	}
 
-	// ASSIGN 
-	private Expression assignment() throws Exception {
-		String typeOrId = (String) getCurrentToken().getLiteral();
-		Boolean newVar = false;
-		if (getNextToken().getType() != Token.TokenType.ASSIGN) {
-			newVar = true;
-			increment();
-		}
 
-		String identifier = (String) getCurrentToken().getLiteral();
-		Variable v = new Variable(identifier, typeOrId);
-		increment();
-		if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
-			increment();
-			Expression e = expression();
-			return new Assignment(v, e, !newVar);
-		}
-		return null;
-	}
 
 	// FUNCTION CALL
 	public Expression call(String funcName, boolean isConstructor) throws Exception {
@@ -319,10 +333,8 @@ public class Parser {
 
 	// IDENTIFIER	
 	public Expression identifier() throws Exception {
-		if ((getNextToken().getType() == Token.TokenType.ASSIGN) || (peekToken(2).getType() == Token.TokenType.ASSIGN)) { 
-			return assignment();
-		} else if (getNextToken().getType() == Token.TokenType.DOT) {
-			List<String> identifiers = new LinkedList<>();
+		if (getNextToken().getType() == Token.TokenType.DOT) {
+			LinkedList<String> identifiers = new LinkedList<>();
 			while (getNextToken().getType() == Token.TokenType.DOT) { 
 				String identifier = (String) consume(Token.TokenType.IDENTIFIER, "Expecting token of type identifier");
 				identifiers.add(identifier);
@@ -336,16 +348,16 @@ public class Parser {
 				return new MethodCall(new Attribute(identifiers), (FunctionCall) e);
 			}
 			else if (e instanceof Identifier){
-				if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
+//				if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
+////					increment();
 //					increment();
-					increment();
-					Expression rightExpression = expression();
-					return new ObjectAssignment(new Attribute(identifiers), 
-							(Identifier) e, rightExpression);
-				} else {
+//					Expression rightExpression = expression();
+//					return new ObjectAssignment(new Attribute(identifiers), 
+//							(Identifier) e, rightExpression);
+//				} else {
 					identifiers.add((String) ((Identifier) e).name);
 					return new Attribute(identifiers);
-				}
+//				}
 			}
 			else {
 				throw new Exception("Can only access attributes and methods of object");
@@ -364,23 +376,7 @@ public class Parser {
 			String funcName = (String) getCurrentToken().getLiteral();
 			increment();
 			return call(funcName, false);
-		} 
-//		else if (getNextToken().getType() == Token.TokenType.DOT) {
-//			String objectName = (String) getCurrentToken().getLiteral();
-//			increment();
-//			consume(Token.TokenType.DOT, "Expecting token of type DOT");
-//			Expression e = literal();
-//			if (e instanceof FunctionCall) {
-//				return new MethodCall(objectName, (FunctionCall) e);
-//			}
-//			else if (e instanceof Identifier){
-//				return new AttributeCall(objectName, ((Identifier) e).getName());
-//			}
-//			else {
-//				throw new Exception("Can only access attributes and methods of object " + objectName);
-//			}
-//		} 
-		else {
+		} else {
 			String name = (String) getCurrentToken().getLiteral();
 			increment();
 			return new Identifier(name);
