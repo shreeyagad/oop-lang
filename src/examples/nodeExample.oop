@@ -19,5 +19,6 @@ function addNodeVals(Node head) {
     };
     return finalValue;
 };
+print("The sum of all of the node values is: ");
 print(addNodeVals(n4));
 

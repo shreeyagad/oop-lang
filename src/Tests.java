@@ -199,7 +199,7 @@ public class Tests {
 	@Test
 	public void test20() throws Exception {
 		System.out.println("test20");
-		String source = "int num = 4; boolean b = num == 4; int b2 = num * 2 >= 16; b && b;";
+		String source = "int num = 4; boolean b = num == 4; boolean b2 = num * 2 >= 16; b && b2;";
 		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
 		assertEquals(Interpreter.evaluate(source), true);
 	}
