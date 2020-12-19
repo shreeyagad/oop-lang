@@ -17,4 +17,4 @@ class Dog extends Animal {
 };
 Dog d = new Dog("Tom");
 String walk = (if (d.landAnimal) { " can "; } else { " cannot "; });
-d.name + "is a dog that" + walk + "walk.";
+print(d.name + " is a dog that" + walk + "walk.");

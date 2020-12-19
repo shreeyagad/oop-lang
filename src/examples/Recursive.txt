@@ -1,0 +1,23 @@
+class Node {
+    Node next;
+    int val;
+    function Node(int v, Node n) {
+        this.val=v;
+        this.next=n;
+    };
+};
+Node n1 = new Node(1, null);
+Node n2 = new Node(2, n1);
+Node n3 = new Node(3, n2);
+Node n4 = new Node(4, n3);
+Node head = n4;
+function addNodeVals(Node head) {
+    int finalValue = 0;
+    while (head != null) {
+        finalValue = finalValue + head.val;
+        head = head.next;
+    };
+    return finalValue;
+};
+addNodeVals(n4);
+

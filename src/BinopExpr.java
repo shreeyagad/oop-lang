@@ -45,6 +45,9 @@ public class BinopExpr extends Expression {
 		case GREATER: 
 			return (int) leftExpr.eval(env) > (int) rightExpr.eval(env);
 		case EQUALS:
+			if (leftExpr.eval(env) == null || rightExpr.eval(env) == null) {
+				return (leftExpr.eval(env) == rightExpr.eval(env));
+			}
 			return leftExpr.eval(env).equals(rightExpr.eval(env));
 		case LESSEQ:
 			return (int) leftExpr.eval(env) <= (int) rightExpr.eval(env);
@@ -55,6 +58,9 @@ public class BinopExpr extends Expression {
 		case AND:
 			return ((boolean) leftExpr.eval(env) && (boolean) rightExpr.eval(env));
 		case NOTEQ:
+			if (leftExpr.eval(env) == null || rightExpr.eval(env) == null) {
+				return (leftExpr.eval(env) != rightExpr.eval(env));
+			}
 			return !(leftExpr.eval(env).equals(rightExpr.eval(env)));
 		default:
 			return null;
