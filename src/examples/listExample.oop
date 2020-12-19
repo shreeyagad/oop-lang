@@ -1,0 +1,33 @@
+class intList {
+    int head;
+    intList tail;
+
+    function intList(int head, intList tail) {
+        this.head = head;
+        this.tail = tail;
+    };
+
+    function append(int n) {
+        this.tail = new intList(this.head, this.tail);
+        this.head = n;
+    };
+
+    function index(int a) {
+        print(a);
+        if (a == 0) { 
+            return head; 
+        }
+        else { 
+            return (tail.index(a-1));
+        };
+    };
+};
+intList i = new intList(1, null);
+int n = 2;
+while (n <= 10) {
+    i.append(n);
+    n = n + 1;
+};
+print(i.index(1));
+
+

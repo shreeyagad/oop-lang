@@ -1,0 +1,31 @@
+class Dog {
+    String name;
+    int age;
+    Person owner;
+
+    function Dog(String name, int age, Person owner) {
+        this.name = name;
+        this.age = age;
+        this.owner = owner;
+    };
+};
+class Person {
+    String name;
+    int age;
+
+    function Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+        this.pet = null;
+    };
+
+    function getDog(Dog d) {
+        this.pet = d;
+        d.owner = this;
+    };
+};
+
+Dog d = new Dog("Tom", 1, null);
+Person p = new Person("Emily", 10); 
+p.getDog(d);
+print("Emily's pet's name is " + p.pet.name + ".");
