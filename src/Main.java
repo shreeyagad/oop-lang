@@ -40,13 +40,6 @@ public class Main {
 		}
 		in.close();
 		
-		// String source = "class Person { String name; function Person(String name) { this.name = name; }; }; Person p = new Person(“Emily”); p.name;"
-		// 		+ "	\"The dog \" + d.name + \" has owner \" + d.owner.name + \".\";";
-		// Tokenizer t = new Tokenizer(source);
-		// Parser p = new Parser(t);
-		// System.out.println(p.parseTokens());
-		// System.out.println(Interpreter.evaluate(source));
-		
 	}
 
 }
