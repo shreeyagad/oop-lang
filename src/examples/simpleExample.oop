@@ -1,0 +1,26 @@
+int num1 = 4;
+int num2 = 2;
+print("4 + 2 = ");
+print(num1 + num2);
+print("4 - 2 = ");
+print(num1 - num2);
+print("4 * 2 = ");
+print(num1 * num2);
+print("4 / 2 = ");
+print(num1 / num2);
+
+print("4 > 2:");
+print(num1 > num2);
+print("4 <= 2:");
+print(num1 <= num2);
+print("4 == 2:");
+print(num1 == num2);
+print("4 != 2:");
+print(num1 > num2);
+print("true && false");
+print(true && false);
+print("false || true");
+print(false || true);
+
+String hello = "Hello";
+print(hello + " World");

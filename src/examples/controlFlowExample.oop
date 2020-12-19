@@ -1,0 +1,21 @@
+function factorial(int n) {
+  int product = 1;
+  while (n > 0) {
+    product = product * n;
+    n = n - 1;
+  };
+  return product; 
+};
+
+function factorial2(int n) {
+  if (n <= 1) {
+    return n;
+  }
+  else {
+    return (n * factorial2(n - 1));
+  };
+};
+
+print(factorial(10));
+
+print(factorial2(10));
