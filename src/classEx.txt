@@ -1,24 +1,20 @@
 class Animal {
     String name;
-    int age;
-    function Animal(int age, String name) {
-        print(name);
-        this.age=age;
+    boolean landAnimal;
+    function Animal(boolean landAnimal, String name) {
+        this.landAnimal=landAnimal;
         this.name=name;
     };
-    function printName() {
-        print(this.name);
+    function canWalk() {
+        return landAnimal;
     };
 };
 class Dog extends Animal {
     String name;
-    function Dog(int age, String name) {
-        print(name);
-        this.super(age, name);
-    };
-    function getName() {
-        return name;
+    function Dog(String name) {
+        this.super(true, name);
     };
 };
-Dog d = new Dog(10, "Tom");
-print(d.age);
+Dog d = new Dog("Tom");
+String walk = (if (d.landAnimal) { " can "; } else { " cannot "; });
+d.name + "is a dog that" + walk + "walk.";

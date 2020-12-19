@@ -1,3 +1,6 @@
+/**
+ * Represents a value with null type
+ */
 public class MyNull extends Expression {
 
     @Override

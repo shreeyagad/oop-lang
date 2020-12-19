@@ -20,7 +20,7 @@ public class MyFunction {
 	public Object eval(Environment env) {
 		Object returnValue = null;
 		try {
-			returnValue = body.eval(env); // age --> 10, name --> Tom
+			returnValue = body.eval(env);
 		}
 		catch (ReturnException foundReturn) {
 			returnValue = foundReturn.value;

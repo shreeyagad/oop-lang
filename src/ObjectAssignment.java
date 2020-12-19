@@ -1,3 +1,9 @@
+/**
+ * Represents an ObjectAssignment Expression
+ * @param object The object whose attribute will be assigned a value
+ * @param attribute The attribute of the object that will be assigned a value
+ * @param expr The expression whose value that will be assigned to the attribute
+ */
 public class ObjectAssignment extends Expression {
 	Attribute object;
 	Identifier attribute;

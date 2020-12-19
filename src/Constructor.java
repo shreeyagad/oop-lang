@@ -31,7 +31,17 @@ public class Constructor extends Expression {
 		newEnv.addVariable("this", o);
 
 		FunctionCall constructor = new FunctionCall(className, argExprs);
-		System.out.println(argExprs);
+		MyFunction f = (MyFunction) env.getValue(className);
+		
+		Iterator argsExprIt = argExprs.iterator();
+		Iterator argNamesIt = f.args.iterator();
+		
+		while (argsExprIt.hasNext() && argNamesIt.hasNext()) {
+			Variable v = (Variable) argNamesIt.next();
+			Expression e = (Expression) (argsExprIt.next());
+			newEnv.addVariable(v.name, e.eval(env));
+		}
+
 		constructor.eval(newEnv);
 
 		return o;

@@ -16,15 +16,6 @@ public class FunctionCall extends Expression {
 		this.argExprs = argExprs;
 	}
 
-	// @Override
-	// public Object eval(Environment env) {
-	// 	return evalCall(env, env.copyEnv());
-	// }
-
-	// public Object evalMethod(Environment env) {
-	// 	return evalCall(env, env);
-	// }
-
 	@Override
 	public Object eval(Environment env) {
 		Environment newEnv = env.copyEnv();

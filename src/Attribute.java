@@ -1,10 +1,12 @@
+/**
+ * Represents an Attribute
+ * @param identifiers The list of identifiers that ultimately point to the attribute of interest
+ */
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Attribute extends Expression {
     LinkedList<String> identifiers;
-
 
     public Attribute(LinkedList<String> identifiers) {
         this.identifiers = identifiers;
@@ -26,4 +28,5 @@ public class Attribute extends Expression {
     public String toString() {
     	return identifiers.toString();
     }
+    
 }

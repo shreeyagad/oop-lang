@@ -40,13 +40,32 @@ public class Main {
 		}
 		in.close();
 		
-//		String source = "class myClass { " + "int num; boolean bool; " + "function myClass(int n, boolean b) {"
-//		+ "num = n; bool = b; " + "}; " + "function addAttr() { return num + num; }; " + "}; "
-//		+ "myClass c = new myClass(2, true); " + "myClass c2 = new myClass(3, false); " + "c.addAttr();";
-//		Tokenizer t = new Tokenizer(source);
-//		Parser p = new Parser(t);
-//		System.out.println(p.parseTokens());
-//		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
+		// String source = "class Dog {\n"
+		// 		+ "	    int age;\n"
+		// 		+ "	    String name;\n"
+		// 		+ "	    Person owner;\n"
+		// 		+ "	    function Dog(int a, String n, Person p) {\n"
+		// 		+ "	        this.age=a;\n"
+		// 		+ "	        this.name=n;\n"
+		// 		+ "	        this.owner=p;\n"
+		// 		+ "	    };\n"
+		// 		+ "	    function printName() {\n"
+		// 		+ "	        print(this.name+this.name);\n"
+		// 		+ "	    };\n"
+		// 		+ "	};\n"
+		// 		+ "	class Person {\n"
+		// 		+ "	    String name;\n"
+		// 		+ "	    function Person(String n) {\n"
+		// 		+ "	        this.name=n;\n"
+		// 		+ "	    };\n"
+		// 		+ "	};\n"
+		// 		+ "	Person p = new Person(\"Emily\");\n"
+		// 		+ "	Dog d = new Dog(10, \"Tom\", p);\n"
+		// 		+ "	\"The dog \" + d.name + \" has owner \" + d.owner.name + \".\";";
+		// Tokenizer t = new Tokenizer(source);
+		// Parser p = new Parser(t);
+		// System.out.println(p.parseTokens());
+		// System.out.println(Interpreter.evaluate(source));
 		
 	}
 

@@ -255,9 +255,33 @@ public class Tests {
 		assertEquals(Interpreter.evaluate(source), "The dog Tom has owner Emily.");
 	}
 	
+	@Test
 	public void test23() throws Exception {
 		System.out.println("test23");
-		
+		String source = "class Animal {\n" 
+				+ "	    String name;\n"
+				+ "	    boolean landAnimal;\n"
+				+ "	    function Animal(boolean landAnimal, String name) {\n"
+				+ "	        this.landAnimal=landAnimal;\n"
+				+ "	        this.name=name;\n"
+				+ "	    };\n"
+				+ "	    function canWalk() {\n"
+				+ "	        return landAnimal;\n"
+				+ "	    };\n"
+				+ "	};\n"
+				+ "	class Dog extends Animal {\n"
+				+ "	    String name;\n"
+				+ "	    function Dog(String name) {\n"
+				+ "			this.super(true, name);\n"
+				+ "	    };\n"
+				+ "	};\n"
+				+ "	Dog d = new Dog(\"Tom\");\n"
+				+ " String walk = (if (d.landAnimal) { \" can \"; } else { \" cannot \"; });\n"
+				+ " d.name + \" is a dog that\" + walk + \"walk.\";";
+		System.out.println(source + " evaluates to " + Interpreter.evaluate(source));
+		assertEquals(Interpreter.evaluate(source), "Tom is a dog that can walk.");
+	}
+
 	
 
 	
