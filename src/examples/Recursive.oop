@@ -19,5 +19,5 @@ function addNodeVals(Node head) {
     };
     return finalValue;
 };
-addNodeVals(n4);
+print(addNodeVals(n4));
 

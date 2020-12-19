@@ -5,7 +5,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("\nWelcome to OOPLang!\n");
-		System.out.println("If you would like to execute a .txt file, enter 1. If you would like to proceed to the interpreter, enter 2.\n");
+		System.out.println("If you would like to execute a .oop file, enter 1. If you would like to proceed to the interpreter, enter 2.\n");
 		Scanner in = new Scanner(System.in);
 		int a = Integer.parseInt(in.nextLine());
 		Environment env = new Environment();
