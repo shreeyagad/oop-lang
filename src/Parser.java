@@ -28,10 +28,6 @@ public class Parser {
 		return tokens.get(current + 1);
 	}
 	
-	private Token peekToken(int n) {
-		return tokens.get(current + n);
-	}
-	
 	private Token.TokenType getCurrentTokenType() {
 		return getCurrentToken().getType();
 	}
@@ -339,16 +335,8 @@ public class Parser {
 				return new MethodCall(new Attribute(identifiers), (FunctionCall) e);
 			}
 			else if (e instanceof Identifier){
-//				if (getCurrentTokenType() == Token.TokenType.ASSIGN) {
-////					increment();
-//					increment();
-//					Expression rightExpression = expression();
-//					return new ObjectAssignment(new Attribute(identifiers), 
-//							(Identifier) e, rightExpression);
-//				} else {
-					identifiers.add((String) ((Identifier) e).name);
-					return new Attribute(identifiers);
-//				}
+				identifiers.add(((Identifier) e).name);
+				return new Attribute(identifiers);
 			}
 			else {
 				throw new Exception("Can only access attributes and methods of object");
@@ -359,15 +347,6 @@ public class Parser {
 			String name = (String) getCurrentToken().getLiteral();
 			increment();
 			return new Variable(name, type);
-		// else if (getCurrentTokenType() == Token.TokenType.SUPER) {
-		// 	increment();
-		// 	Expression e = call("super", false);
-		// 	if (e instanceof FunctionCall) {
-		// 		return new MethodCall((FunctionCall) e);
-		// 	}
-		// 	else {
-		// 		throw new Exception("Super must be used as a function call");
-		// 	}
 		} else if (getNextToken().getType() == Token.TokenType.LPAREN) {
 			String funcName = (String) getCurrentToken().getLiteral();
 			increment();
@@ -392,8 +371,6 @@ public class Parser {
 				if (getCurrentTokenType() == Token.TokenType.COMMA) {
 					increment();
 				}
-				// String argType = (String) consume(Token.TokenType.VARTYPE, 
-				// 		"Expecting token of type VARTYPE");
 				String argType = (String) getCurrentToken().getLiteral();
 				increment();
 				String identifier = (String) consume(Token.TokenType.IDENTIFIER, 
@@ -424,7 +401,6 @@ public class Parser {
 		consume(Token.TokenType.LBRACKET, "Expecting token of type LBRACKET");
 		List<Variable> attributes = new LinkedList<>();
 		while (getCurrentTokenType() != Token.TokenType.FUNCTION) {
-			// String type = (String) consume(Token.TokenType.VARTYPE, "Expecting Token of type VARTYPE");
 			String type = (String) getCurrentToken().getLiteral();
 			increment();
 			String identifier = (String) consume(Token.TokenType.IDENTIFIER, 

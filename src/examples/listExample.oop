@@ -16,13 +16,7 @@ class intList {
         if (a == 0) {
             return head;
         };
-        int returnVal = 0;
-        while (a > 0) {
-            returnVal = tail.head;
-            tail = tail.tail;
-            a = a - 1;
-        };
-        return returnVal;
+        return tail.index(a-1);
     };
 };
 intList i = new intList(10, null);
@@ -33,5 +27,5 @@ while (n >= 0) {
 };
 print(i.index(0));
 print(i.index(5));
-print(i.index(10));
+
 

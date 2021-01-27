@@ -1,5 +1,3 @@
-import java.util.Iterator;
-
 /**
  * Represents a MethodCall expression
  * 
@@ -18,18 +16,8 @@ public class MethodCall extends Expression {
 	@Override
 	public Object eval(Environment env) {
 		MyObject o = (MyObject) object.eval(env);
-		MyFunction f = (MyFunction) (o.env.getValue(method.funcName));
-
-		Iterator argsExprIt = method.argExprs.iterator();
-		Iterator argNamesIt = f.args.iterator();
-
-		Environment newEnv = o.env.copyEnv();
-
-		while (argsExprIt.hasNext() && argNamesIt.hasNext()) {
-			Variable v = (Variable) argNamesIt.next();
-			Expression e = (Expression) (argsExprIt.next());
-			newEnv.addVariable(v.name, e.eval(env));
-		}
+		Environment newEnv = env.copyEnv();
+		newEnv.combineEnv(o.env);
 
 		return method.eval(newEnv);
 	}
